@@ -43,7 +43,7 @@ float treshold(float x,float tr) {
 }
 
 - (NSArray *)exposedBindings {
-	return [NSArray arrayWithObjects:@"dataObjects", @"selectedObjects", nil];
+	return @[@"dataObjects", @"selectedObjects"];
 } 
 
 + (NSSet *)keyPathsForValuesAffectingLaces {
@@ -454,7 +454,7 @@ float treshold(float x,float tr) {
 	if ([startHole valueForKey:@"data"] == [endHole valueForKey:@"data"]) {
 		return;
 	}
-	NSDictionary *conn = [NSDictionary dictionaryWithObjectsAndKeys:startHole, @"startHole", endHole, @"endHole", nil];
+	NSDictionary *conn = @{@"startHole": startHole, @"endHole": endHole};
 	
 	// check if already connected
 	for (NSDictionary *aDict in [self laces]) {
@@ -550,11 +550,11 @@ float treshold(float x,float tr) {
 		NSDictionary *aDict;
 		while ((aDict = [enu nextObject]))
 		{
-			if([aDict objectForKey:@"endHole"] == _endHole) break;
+			if(aDict[@"endHole"] == _endHole) break;
 		}
 		if(!aDict) return; //nothing to un-drag...
 		
-		_startHole = [aDict objectForKey:@"startHole"];
+		_startHole = aDict[@"startHole"];
 		_startSubView = [self viewForData:[_startHole valueForKey:@"data"]];
 		
 		[_startHole willChangeValueForKey:@"laces"];

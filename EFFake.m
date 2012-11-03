@@ -21,7 +21,7 @@
 	static NSArray *keys = nil;
     if (!keys)
     {
-		keys = [[NSArray alloc] initWithObjects:@"tag",@"inputs",@"outputs",@"title",@"titleColor",@"verticalOffset",@"originX",@"originY",@"width",@"height", nil];
+		keys = @[@"tag",@"inputs",@"outputs",@"title",@"titleColor",@"verticalOffset",@"originX",@"originY",@"width",@"height"];
     }
     return keys;
 }

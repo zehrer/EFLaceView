@@ -31,9 +31,6 @@
 	}
 }
 
-- (void) dealloc {	
-	[super dealloc];
-}
 
 - (NSString *)windowNibName {
     return @"MyDocument";

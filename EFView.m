@@ -34,8 +34,8 @@ static void *_inoutputObservationContext = (void *)1094;
 		_outputs = [[NSMutableSet alloc] init];
 		
 		_stringAttributes = [[NSMutableDictionary alloc] init];
-		[_stringAttributes setObject:[NSFont messageFontOfSize:10] forKey:NSFontAttributeName];
-		[_stringAttributes setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
+		_stringAttributes[NSFontAttributeName] = [NSFont messageFontOfSize:10];
+		_stringAttributes[NSForegroundColorAttributeName] = [NSColor blackColor];
 		
 		_title = @"Title bar";
 		NSSize titleSize = [[self title] sizeWithAttributes:_stringAttributes];
@@ -184,7 +184,7 @@ static void *_inoutputObservationContext = (void *)1094;
 
 - (NSArray *)orderedHoles:(NSSet *)aSet {
 	NSSortDescriptor* sort = [[NSSortDescriptor alloc] initWithKey:@"position" ascending:YES];
-	NSArray* result = [[aSet allObjects] sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
+	NSArray* result = [[aSet allObjects] sortedArrayUsingDescriptors:@[sort]];
 	return result;
 }
 
@@ -212,7 +212,7 @@ static void *_inoutputObservationContext = (void *)1094;
 	float heightOfText = stringSize.height;
 	if ((mousePos.x>0) && (mousePos.x <15)) {
 		int hole = (-mousePos.y + [self bounds].origin.y + [self bounds].size.height - [self verticalOffset] - heightOfText*0.5 ) / heightOfText;
-		id res = ((hole >0)&&(hole <=[[self inputs] count]))?[[self orderedInputs] objectAtIndex:hole-1]:nil;
+		id res = ((hole >0)&&(hole <=[[self inputs] count]))?[self orderedInputs][hole-1]:nil;
 		if (res) {
 			[res setValue:_data forKey:@"data"];
 		}
@@ -227,7 +227,7 @@ static void *_inoutputObservationContext = (void *)1094;
 	float heightOfText = stringSize.height;
 	if ((mousePos.x>[self bounds].origin.x+[self bounds].size.width-15) && (mousePos.x <[self bounds].origin.x+[self bounds].size.width)) {
 		int hole = (-mousePos.y + [self bounds].origin.y + [self bounds].size.height - [self verticalOffset] - heightOfText*0.5) / heightOfText;
-		id res = ((hole >0)&&(hole <=[[self outputs] count]))?[[self orderedOutputs] objectAtIndex:hole-1]:nil;
+		id res = ((hole >0)&&(hole <=[[self outputs] count]))?[self orderedOutputs][hole-1]:nil;
 		if (res) {
 			[res setValue:_data forKey:@"data"];
 		}
@@ -261,14 +261,14 @@ static void *_inoutputObservationContext = (void *)1094;
 	float maxInputWidth = 0;
 	int i;
 	for (i=0; i<[[self inputs] count]; i++) {
-		NSString* inputLabel = [[[self orderedInputs] objectAtIndex:(unsigned)i] valueForKey:@"label"];
+		NSString* inputLabel = [[self orderedInputs][(unsigned)i] valueForKey:@"label"];
 		float inputWidth = 10+4+[inputLabel sizeWithAttributes:_stringAttributes].width + 5;
 		maxInputWidth = MAX(inputWidth,maxInputWidth);
 	}
 	float maxOutputWidth = 0;
 	int j;
 	for (j=0; j<[[self outputs] count]; j++) {
-		NSString* outputLabel = [[[self orderedOutputs] objectAtIndex:(unsigned)j] valueForKey:@"label"];
+		NSString* outputLabel = [[self orderedOutputs][(unsigned)j] valueForKey:@"label"];
 		float outputWidth =10+4+[outputLabel sizeWithAttributes:_stringAttributes].width + 5;
 		maxOutputWidth = MAX(outputWidth,maxOutputWidth);
 	}

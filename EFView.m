@@ -2,15 +2,7 @@
 //  EFView.m
 // EFLaceView
 //
-//  Created by MacBook Pro ef on 25/07/06.
-//  Copyright 2006 Edouard FISCHER. All rights reserved.
-//  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-//
-//	-	Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-//	-	Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-//	-	Neither the name of Edouard FISCHER nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 
-//  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import "EFView.h"
 #import "EFLaceView.h"
@@ -21,15 +13,14 @@ static void *_inoutputObservationContext = (void *)1094;
 
 @implementation EFView
 
-#pragma mark -
-#pragma mark *** init routines ***
+#pragma mark - *** init routines ***
 - (id) init {
 	return [self initWithFrame:NSMakeRect(0,0,10,10)];
 }
 
 - (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame];
-    if (self) {
+	if (self) {
 		_inputs = [[NSMutableSet alloc] init];
 		_outputs = [[NSMutableSet alloc] init];
 		
@@ -50,7 +41,7 @@ static void *_inoutputObservationContext = (void *)1094;
 		[self addObserver:self forKeyPath:@"inputs" options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld) context:_inoutputObservationContext];
 		[self addObserver:self forKeyPath:@"outputs" options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld) context:_inoutputObservationContext];
 	}
-    return self;
+	return self;
 }
 
 - (void)removeFromSuperview {
@@ -71,8 +62,7 @@ static void *_inoutputObservationContext = (void *)1094;
 }
 
 
-#pragma mark -
-#pragma mark *** setters and accessors ***
+#pragma mark - *** setters and accessors ***
 //vertical Offset
 - (float)verticalOffset {
 	return _verticalOffset;
@@ -169,7 +159,7 @@ static void *_inoutputObservationContext = (void *)1094;
 #pragma mark inputs
 
 - (NSMutableSet *)inputs {
-    return _inputs; 
+	return _inputs; 
 }
 
 - (void)setInputs:(NSMutableSet *)aSet {
@@ -203,8 +193,7 @@ static void *_inoutputObservationContext = (void *)1094;
 	return [self orderedHoles:[self outputs]];
 }
 
-#pragma mark -
-#pragma mark *** geometry ***
+#pragma mark - *** geometry ***
 
 - (id) endHole:(NSPoint)aPoint {
 	NSPoint mousePos = [self convertPoint:aPoint fromView:[self superview]];
@@ -279,8 +268,7 @@ static void *_inoutputObservationContext = (void *)1094;
 	return result;
 }
 
-#pragma mark -
-#pragma mark *** drawing ***
+#pragma mark - *** drawing ***
 
 - (void)drawRect:(NSRect)rect {
 	NSRect bounds = NSInsetRect([self bounds],4,4);
@@ -375,8 +363,7 @@ static void *_inoutputObservationContext = (void *)1094;
 	}
 }
 
-#pragma mark -
-#pragma mark *** events ***
+#pragma mark - *** events ***
 
 - (BOOL) acceptsFirstResponder {
 	return YES;
@@ -407,9 +394,9 @@ static void *_inoutputObservationContext = (void *)1094;
 	NSRect initialFrame = [self frame];
 	
 	while (keepOn) {
-        theEvent = [[self window] nextEventMatchingMask: NSLeftMouseUpMask | NSLeftMouseDraggedMask | NSPeriodicMask ];
-        switch ([theEvent type]) {
-            case NSLeftMouseDragged: {
+		theEvent = [[self window] nextEventMatchingMask: NSLeftMouseUpMask | NSLeftMouseDraggedMask | NSPeriodicMask ];
+		switch ([theEvent type]) {
+			case NSLeftMouseDragged: {
 				[[NSCursor closedHandCursor] set];
 				mouseLoc = [[self superview] convertPoint:[theEvent locationInWindow] fromView:nil];
 				for (NSView* view in [sView selectedSubViews]) {
@@ -420,7 +407,7 @@ static void *_inoutputObservationContext = (void *)1094;
 				[sView setNeedsDisplay:YES];
 				break;
 			}
-            case NSLeftMouseUp:
+			case NSLeftMouseUp:
 				[[NSCursor arrowCursor] set];
 				if (!NSContainsRect([sView bounds],[self frame])) { 
 					// revert to original frame if not inside superview
@@ -430,60 +417,47 @@ static void *_inoutputObservationContext = (void *)1094;
 				keepOn = NO;
 				[sView setNeedsDisplay:YES];
 				break;
-            default:
+			default:
 				/* Ignore any other kind of event. */
 				break;
-        }
-    };
-    return;
+		}
+	};
+	return;
 }
-
-
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if (((keyPath == @"inputs") || keyPath == @"outputs") && (context == _inoutputObservationContext)) {
+	if ((([keyPath isEqualToString: @"inputs"]) || 
+		   [keyPath isEqualToString:@"outputs"]) && 
+	  (context == _inoutputObservationContext)) {
 		
-		NSSet *new = [change valueForKey:@"new"];
-		NSSet *old = [change valueForKey:@"old"];
-		
-		//compute inserted labels
-		NSMutableSet *inserted = [new mutableCopy];
-		[inserted minusSet:old];
-		
-		//compute removed labels
-		NSMutableSet *removed = [old mutableCopy];
-		[removed minusSet:new];
-		
-		//make label observed by the view for changes on label or on position
-		for (id anObject in inserted) {
-			[anObject addObserver:self forKeyPath:@"label" options:0 context:_inoutputObservationContext];
-			[anObject addObserver:self forKeyPath:@"position" options:0 context:_inoutputObservationContext];
-			[anObject addObserver:self forKeyPath:@"laces" options:0 context:_inoutputObservationContext];
+		NSSet *new = [change  valueForKey:@"new"];	
+		NSSet *old = [change  valueForKey:@"old"];
+		NSMutableSet *inserted =  new.mutableCopy; //compute inserted labels
+				            [inserted minusSet:old];
+		NSMutableSet *removed = [old mutableCopy];//compute removed labels
+								 [removed minusSet:new];
+		for (id anObject in inserted) {				//make label observed by the view for changes on label or on position
+			[anObject addObserver:self forKeyPath:@"label" 		options:0 context:_inoutputObservationContext];
+			[anObject addObserver:self forKeyPath:@"position" 	options:0 context:_inoutputObservationContext];
+			[anObject addObserver:self forKeyPath:@"laces" 		options:0 context:_inoutputObservationContext];
 		}
-		
 		for (id anObject in removed) {
-			[anObject removeObserver:self forKeyPath:@"label"];
+			[anObject removeObserver:self forKeyPath:	  @"label"];
 			[anObject removeObserver:self forKeyPath:@"position"];
-			[anObject removeObserver:self forKeyPath:@"laces"];
+			[anObject removeObserver:self forKeyPath:   @"laces"];
 		}
-		
+		//update size and redraw
+		[self setWidth: MAX([self minimalSize].width,[self width])];
+		[self setHeight:MAX([self minimalSize].height,[self height])];
+		[self.superview setNeedsDisplay:YES];
+	}
+	if (([keyPath isEqualToString:@"label"]) && (context == _inoutputObservationContext) ) {
 		//update size and redraw
 		[self setWidth:MAX([self minimalSize].width,[self width])];
 		[self setHeight:MAX([self minimalSize].height,[self height])];
-		[[self superview] setNeedsDisplay:YES];
+	}
+	if (([keyPath isEqualToString:@"position"]) && (context == _inoutputObservationContext) ) 
+		[[self superview] setNeedsDisplay:YES];//redraw superview (laces may have changed because of positions of labels)
+	if ([keyPath isEqualToString:@"laces"])[[self superview] setNeedsDisplay:YES]; //redraw laces because of undos
 		
-    }
-	if ((keyPath == @"label") && (context == _inoutputObservationContext) ) {
-		//update size and redraw
-		[self setWidth:MAX([self minimalSize].width,[self width])];
-		[self setHeight:MAX([self minimalSize].height,[self height])];
-	}
-	if ((keyPath == @"position") && (context == _inoutputObservationContext) ) {
-		//redraw superview (laces may have changed because of positions of labels)
-		[[self superview] setNeedsDisplay:YES];
-	}
-	if ([keyPath isEqualToString:@"laces"]) {
-		//redraw laces because of undos
-		[[self superview] setNeedsDisplay:YES];
-	}
 }
 @end

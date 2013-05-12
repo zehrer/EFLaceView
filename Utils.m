@@ -82,12 +82,12 @@ static const CGFloat domainAndRange[8] = {0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0
 	CGFunctionRef linearBlendFunctionRef = CGFunctionCreate(twoColors, 1, domainAndRange, 4, domainAndRange, &linearFunctionCallbacks);  
 	NSRect bounds = [self bounds];
 	CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
-    CGContextSaveGState(context); 
+	CGContextSaveGState(context); 
 	[self addClip];
 	{	CGShadingRef cgShading = CGShadingCreateAxial(colorSpace,CGPointMake(0, NSMaxY(bounds)), CGPointMake(0, NSMinY(bounds)), linearBlendFunctionRef, NO, NO);
 		CGContextDrawShading(context, cgShading);
 		CGShadingRelease(cgShading);
-    } 
+	} 
 	CGContextRestoreGState(context);
 	CGFunctionRelease(linearBlendFunctionRef);
 	CGColorSpaceRelease(colorSpace);	

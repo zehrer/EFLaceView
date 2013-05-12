@@ -2,111 +2,72 @@
 //  EFLaceView.m
 // EFLaceView
 //
-//  Created by MacBook Pro ef on 01/08/06.
-//  Copyright 2006 Edouard FISCHER. All rights reserved.
-//  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-//
-//	-	Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-//	-	Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-//	-	Neither the name of Edouard FISCHER nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 
-//  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import "EFLaceView.h"
 #import "EFView.h"
 #import <Carbon/Carbon.h> // 4 keyCodes
+//#warning TODO : implement delegates
 
-static void *_propertyObservationContext = (void *)1091;
-static void *_dataObjectsObservationContext = (void *)1092;
-static void *_selectionIndexesObservationContext = (void *)1093;
+static void *_propertyObservationContext 				= (void *)1091;
+static void *_dataObjectsObservationContext 			= (void *)1092;
+static void *_selectionIndexesObservationContext 	= (void *)1093;
 
-
-#warning TODO : implement delegates
-
-
+#pragma mark - *** utility functions***
+float treshold(float x,float tr) {	return (x>0)?((x>tr)?x:tr):-x+tr;	}
 
 @implementation EFLaceView
+#pragma mark - *** bindings ***
++     (void) initialize 							{	[self exposeBinding:@"dataObjects"];	[self exposeBinding:@"selectionIndexes"];	}
+- (NSArray*) exposedBindings 						{	return @[@"dataObjects", @"selectedObjects"];												} 
++   (NSSet*) keyPathsForValuesAffectingLaces {	return [NSSet setWithObjects:@"dataObjects", nil];											} 
 
-#pragma mark -
-#pragma mark *** utility functions***
-
-float treshold(float x,float tr);
-float treshold(float x,float tr) {
-	return (x>0)?((x>tr)?x:tr):-x+tr;
-}
-
-#pragma mark -
-#pragma mark *** bindings ***
-
-+ (void)initialize {
-	[self exposeBinding:@"dataObjects"];
-	[self exposeBinding:@"selectionIndexes"];
-}
-
-- (NSArray *)exposedBindings {
-	return @[@"dataObjects", @"selectedObjects"];
-} 
-
-+ (NSSet *)keyPathsForValuesAffectingLaces {
-    return [NSSet setWithObjects:@"dataObjects", nil];
-} 
-
-- (void)bind:(NSString *)bindingName toObject:(id)observableObject withKeyPath:(NSString *)observableKeyPath options:(NSDictionary *)options {
-    if ([bindingName isEqualToString:@"dataObjects"]) {
-		_dataObjectsContainer = observableObject;
-		_dataObjectsKeyPath = observableKeyPath;
-		[_dataObjectsContainer addObserver:self forKeyPath:_dataObjectsKeyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:_dataObjectsObservationContext];
+-     (void) bind:(NSString*)b toObject:(id)o withKeyPath:(NSString*)kp options:(NSDictionary*)opt {
+	[b isEqualToString:@"dataObjects"] ? ^{
+		_dataObjectsContainer	= o;
+		_dataObjectsKeyPath 		= kp;
+		[_dataObjectsContainer addObserver:self forKeyPath:_dataObjectsKeyPath 
+											options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) 
+											context:_dataObjectsObservationContext];
 		[self startObservingDataObjects:[self dataObjects]];
-		[self setOldDataObjects:[self dataObjects]];
-    } else if ([bindingName isEqualToString:@"selectionIndexes"]) {
-		_selectionIndexesContainer = observableObject;
-		_selectionIndexesKeyPath = observableKeyPath;
-		[_selectionIndexesContainer addObserver:self forKeyPath:_selectionIndexesKeyPath options:0 context:_selectionIndexesObservationContext];
-    } else {
-		[super bind:bindingName toObject:observableObject withKeyPath:observableKeyPath options:options];
-	}	
-    [self setNeedsDisplay:YES];
+		[self setOldDataObjects:[self dataObjects]];	}():	
+	[b isEqualToString:@"selectionIndexes"] ?^{
+		_selectionIndexesContainer = o;
+		_selectionIndexesKeyPath 	= kp;
+		[_selectionIndexesContainer addObserver:self forKeyPath:_selectionIndexesKeyPath 
+													options:0 context:_selectionIndexesObservationContext];
+	}():	[super bind:b toObject:o withKeyPath:kp options:opt];			[self setNeedsDisplay:YES];
 }
+-     (void) unbind:(NSString*)bindingName {
 
-
-- (void)unbind:(NSString *)bindingName {
-    if ([bindingName isEqualToString:@"dataObjects"]) {
+	[bindingName isEqualToString:@"dataObjects"] 	  ?^{
 		[self stopObservingDataObjects:[self dataObjects]];
 		[_dataObjectsContainer removeObserver:self forKeyPath:_dataObjectsKeyPath];
-		_dataObjectsContainer = nil;
-		_dataObjectsKeyPath = nil;
-    }
-	if ([bindingName isEqualToString:@"selectionIndexes"]) {
+		_dataObjectsContainer 	= nil;
+		_dataObjectsKeyPath 		= nil;					  }():
+	[bindingName isEqualToString:@"selectionIndexes"] ?^{
 		[_selectionIndexesContainer removeObserver:self forKeyPath:_selectionIndexesKeyPath];
-		_selectionIndexesContainer = nil;
-		_selectionIndexesKeyPath = nil;
-	} else {
-		[super unbind:bindingName];
-	}
-	[self setNeedsDisplay:YES];
+		_selectionIndexesContainer 	= nil;
+		_selectionIndexesKeyPath 		= nil; 			 }():  [super unbind:bindingName];		[self setNeedsDisplay:YES];
 }
 
 - (void)startObservingDataObjects:(NSArray *)dataObjects {
-	if ([dataObjects isEqual:[NSNull null]]) {
-		return;
-	}
-	/* Register to observe each of the new dataObjects, and each of their observable properties -- we need old and new values for drawingBounds to figure out what our dirty rect */
-	
-    for (id newDataObject in dataObjects) {
-		[newDataObject addObserver:self forKeyPath:@"drawingBounds" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:_propertyObservationContext];
-		EFView *dummy = [[EFView alloc] init];
+	if ([dataObjects isEqual:[NSNull null]]) 		return;
+/* Register to observe each of the new dataObjects, and each of their observable properties -- we need old and new values for drawingBounds to figure out what our dirty rect */
+	for (id newDataObject in dataObjects) {
+		[newDataObject addObserver:self forKeyPath:@"drawingBounds" 
+								 options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:_propertyObservationContext];
+		EFView *dummy = EFView.new;
 		[self addSubview:dummy];
-		
-		[self scrollRectToVisible:[dummy bounds]]; //make new view visible if view in scrolling view
-		
+		[self scrollRectToVisible:dummy.bounds]; //make new view visible if view in scrolling view
 		// bind view to data
-		[dummy bind:@"title" toObject:newDataObject withKeyPath:@"title" options:nil];
-		[dummy bind:@"titleColor" toObject:newDataObject withKeyPath:@"titleColor" options:nil];
-		[dummy bind:@"originX" toObject:newDataObject withKeyPath:@"originX" options:nil];
-		[dummy bind:@"originY" toObject:newDataObject withKeyPath:@"originY" options:nil];
-		[dummy bind:@"width" toObject:newDataObject withKeyPath:@"width" options:nil];
-		[dummy bind:@"height" toObject:newDataObject withKeyPath:@"height" options:nil];
-		[dummy bind:@"tag" toObject:newDataObject withKeyPath:@"tag" options:nil];
-		[dummy bind:@"verticalOffset" toObject:newDataObject withKeyPath:@"verticalOffset" options:nil];
+		[dummy bind:@"title" 			toObject:newDataObject withKeyPath:@"title" 				options:nil];
+		[dummy bind:@"titleColor" 		toObject:newDataObject withKeyPath:@"titleColor" 		options:nil];
+		[dummy bind:@"originX" 			toObject:newDataObject withKeyPath:@"originX" 			options:nil];
+		[dummy bind:@"originY" 			toObject:newDataObject withKeyPath:@"originY" 			options:nil];
+		[dummy bind:@"width" 			toObject:newDataObject withKeyPath:@"width" 				options:nil];
+		[dummy bind:@"height"			toObject:newDataObject withKeyPath:@"height" 			options:nil];
+		[dummy bind:@"tag" 				toObject:newDataObject withKeyPath:@"tag" 				options:nil];
+		[dummy bind:@"verticalOffset" toObject:newDataObject withKeyPath:@"verticalOffset" 	options:nil];
 		
 		[dummy bind:@"inputs" toObject:newDataObject withKeyPath:@"inputs" options:nil];
 		[dummy bind:@"outputs" toObject:newDataObject withKeyPath:@"outputs" options:nil];
@@ -133,7 +94,7 @@ float treshold(float x,float tr) {
 		return;
 	}
 	
-    for (id oldDataObject in dataObjects) {
+	for (id oldDataObject in dataObjects) {
 		[oldDataObject removeObserver:self forKeyPath:@"drawingBounds"];
 		for  (NSString *key in [[oldDataObject class] keysForNonBoundsProperties]) {
 			[oldDataObject removeObserver:self forKeyPath:key];
@@ -168,7 +129,7 @@ float treshold(float x,float tr) {
 
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if (context == _dataObjectsObservationContext) {
+	if (context == _dataObjectsObservationContext) {
 		NSArray *_newDataObjects = [object valueForKeyPath:_dataObjectsKeyPath];		
 		
 		NSMutableArray *onlyNew = [_newDataObjects mutableCopy];
@@ -184,7 +145,7 @@ float treshold(float x,float tr) {
 		[self setOldDataObjects:_newDataObjects];
 		[self setNeedsDisplay:YES];
 		return;
-    }
+	}
 	
 	if (context == _propertyObservationContext)	{
 		[self setNeedsDisplay:YES];
@@ -200,8 +161,7 @@ float treshold(float x,float tr) {
 }
 
 
-#pragma mark -
-#pragma mark *** setters and accessors ***
+#pragma mark - *** setters and accessors ***
 
 // delegate
 
@@ -237,9 +197,9 @@ float treshold(float x,float tr) {
 - (NSArray *)oldDataObjects { return _oldDataObjects; }
 
 - (void)setOldDataObjects:(NSArray *)anOldDataObjects {
-    if (_oldDataObjects != anOldDataObjects) {
-        _oldDataObjects = [anOldDataObjects mutableCopy];
-    }
+	if (_oldDataObjects != anOldDataObjects) {
+		_oldDataObjects = [anOldDataObjects mutableCopy];
+	}
 }
 
 - (NSMutableArray *)laces {
@@ -275,8 +235,7 @@ float treshold(float x,float tr) {
 }
 
 
-#pragma mark -
-#pragma mark *** drawing ***
+#pragma mark - *** drawing ***
 
 
 -(void)drawLinkFrom:(NSPoint)startPoint to:(NSPoint)endPoint color:(NSColor *)insideColor {
@@ -392,8 +351,7 @@ float treshold(float x,float tr) {
 	}
 }	
 
-#pragma mark -
-#pragma mark *** geometry ***
+#pragma mark - *** geometry ***
 
 - (void)deselectViews {
 	[_selectionIndexesContainer setValue:nil forKeyPath:_selectionIndexesKeyPath];
@@ -447,8 +405,7 @@ float treshold(float x,float tr) {
 	return NO;
 }
 
-#pragma mark -
-#pragma mark *** connections ***
+#pragma mark - *** connections ***
 
 - (void) connectHole:(id)startHole  toHole:(id)endHole {
 	if ([startHole valueForKey:@"data"] == [endHole valueForKey:@"data"]) {
@@ -469,8 +426,7 @@ float treshold(float x,float tr) {
 	[[startHole mutableSetValueForKey:@"laces"] addObject:endHole];
 }
 
-#pragma mark -
-#pragma mark *** events ***
+#pragma mark - *** events ***
 
 - (BOOL) acceptsFirstResponder {
 	return YES;

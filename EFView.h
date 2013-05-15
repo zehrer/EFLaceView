@@ -6,63 +6,40 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface EFView : NSView  {
-	int						_tag;
+@interface EFView : NSView  
+{
 	NSString*				_title;
-	NSColor*				_titleColor;
+	NSColor*					_titleColor;
 	NSMutableSet*			_inputs;
 	NSMutableSet*			_outputs;
-	float					_verticalOffset;
 	NSMutableDictionary*	_stringAttributes;
-	id						_data;
+	id							_data;
+	float						_verticalOffset;
+	int						_tag;
 }
 
 #pragma mark - *** class ***
-
-
 #pragma mark - *** holes ***
-- (NSArray *)orderedHoles:(NSSet *)aSet;
-- (NSPoint)startHolePoint:(id) aStartHole;
-- (NSPoint)endHolePoint:(id) aEndHole;
-- (id)startHole:(NSPoint)aPoint;
-- (id)endHole:(NSPoint)aPoint;
+- (NSArray*) orderedHoles:  (NSSet*)   aSet;
+-  (NSPoint) startHolePoint:(id) aStartHole;
+-  (NSPoint) endHolePoint:  (id)   aEndHole;
+-       (id) startHole:     (NSPoint)aPoint;
+-       (id) endHole:       (NSPoint)aPoint;
 
 #pragma mark - *** setters and accessors ***
-
-// vertical offset
-- (float)verticalOffset;
-- (void)setVerticalOffset:(float)aValue;
-
-// selected
-- (BOOL)isSelected;
-
-// title
-- (NSString *)title;
-- (void)setTitle:(NSString *)aTitle;
-
-// title color
-- (NSColor *)titleColor;
-- (void)setTitleColor:(NSColor *)aColor;
-
+@property (nonatomic,assign) 	float verticalOffset, width, height, originX, originY;						
+@property (readonly) 			BOOL isSelected;
+@property (nonatomic,strong) 	NSString *title;
+@property (nonatomic,strong) 	NSColor *titleColor;
 #pragma mark drawingbounds
-- (float) originX;
-- (float) originY;
-- (float) width;
-- (float) height;
-- (void) setOriginX:(float)aFloat;
-- (void) setOriginY:(float)aFloat;
-- (void) setWidth:(float)aFloat;
-- (void) setHeight:(float)aFloat;
 
 #pragma mark inputs and outputs
-- (NSMutableSet*)inputs;
-- (NSArray *)orderedInputs;
-
-- (NSMutableSet *)outputs;
-- (NSArray*)orderedOutputs;
-
+- (NSMutableSet*) inputs;
+- 	    (NSArray*) orderedInputs;
+- (NSMutableSet*) outputs;
+- 		 (NSArray*) orderedOutputs;
 #pragma mark - *** geometry ***
-- (NSSize) minimalSize;
+-        (NSSize) minimalSize;
 
 
 @end

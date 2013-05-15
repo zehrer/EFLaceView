@@ -5,6 +5,7 @@
 
 #import "EFLaceView.h"
 #import "EFView.h"
+#import <AtoZ/AtoZ.h>
 #import <Carbon/Carbon.h> // 4 keyCodes
 //#warning TODO : implement delegates
 
@@ -18,9 +19,8 @@ float treshold(float x,float tr) {	return (x>0)?((x>tr)?x:tr):-x+tr;	}
 @implementation EFLaceView
 #pragma mark - *** bindings ***
 +     (void) initialize 							{	[self exposeBinding:@"dataObjects"];	[self exposeBinding:@"selectionIndexes"];	}
-- (NSArray*) exposedBindings 						{	return @[@"dataObjects", @"selectedObjects"];												} 
+- (NSA*) exposedBindings 						{	return @[@"dataObjects", @"selectedObjects"];												} 
 +   (NSSet*) keyPathsForValuesAffectingLaces {	return [NSSet setWithObjects:@"dataObjects", nil];											} 
-
 -     (void) bind:(NSString*)b toObject:(id)o withKeyPath:(NSString*)kp options:(NSDictionary*)opt {
 	[b isEqualToString:@"dataObjects"] ? ^{
 		_dataObjectsContainer	= o;
@@ -49,7 +49,6 @@ float treshold(float x,float tr) {	return (x>0)?((x>tr)?x:tr):-x+tr;	}
 		_selectionIndexesContainer 	= nil;
 		_selectionIndexesKeyPath 		= nil; 			 }():  [super unbind:bindingName];		[self setNeedsDisplay:YES];
 }
-
 - (void)startObservingDataObjects:(NSArray *)dataObjects {
 	if ([dataObjects isEqual:[NSNull null]]) 		return;
 /* Register to observe each of the new dataObjects, and each of their observable properties -- we need old and new values for drawingBounds to figure out what our dirty rect */
@@ -88,7 +87,6 @@ float treshold(float x,float tr) {	return (x>0)?((x>tr)?x:tr):-x+tr;	}
 		}
 	}
 }
-
 - (void)stopObservingDataObjects:(NSArray *)dataObjects {
 	if ([dataObjects isEqual:[NSNull null]]) {
 		return;
@@ -125,10 +123,7 @@ float treshold(float x,float tr) {	return (x>0)?((x>tr)?x:tr):-x+tr;	}
 		}
 	}
 }
-
-
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	if (context == _dataObjectsObservationContext) {
 		NSArray *_newDataObjects = [object valueForKeyPath:_dataObjectsKeyPath];		
 		
@@ -159,29 +154,19 @@ float treshold(float x,float tr) {	return (x>0)?((x>tr)?x:tr):-x+tr;	}
 		return;
 	}
 }
-
-
 #pragma mark - *** setters and accessors ***
-
-// delegate
-
-- (id)delegate {
+-   (id) delegate {
 	return _delegate;
 }
-
-- (void)setDelegate:(id)newDelegate {
+- (void) setDelegate:(id)newDelegate {
 	_delegate = newDelegate;
 }
-
-// dataObjects
-
-- (NSArray *)dataObjects {
+- (NSA*) dataObjects {
 	NSMutableArray *result = [[_dataObjectsContainer valueForKeyPath:_dataObjectsKeyPath] mutableCopy];
 	[result removeObject:[NSNull null]];
 	return result;
 }
-
-- (EFView*)viewForData:(id)data {
+- (EFView*) viewForData:(id)data {
 	for (EFView* view in [self subviews]) {
 		if ([view valueForKey:@"data"] == data) {
 			return view;
@@ -189,20 +174,16 @@ float treshold(float x,float tr) {	return (x>0)?((x>tr)?x:tr):-x+tr;	}
 	}
 	return nil;
 }
-
-- (NSIndexSet *)selectionIndexes {
+- (NSIS*) selectionIndexes {
 	return [_selectionIndexesContainer valueForKeyPath:_selectionIndexesKeyPath];
 }
-
-- (NSArray *)oldDataObjects { return _oldDataObjects; }
-
-- (void)setOldDataObjects:(NSArray *)anOldDataObjects {
+- (NSA*)oldDataObjects { return _oldDataObjects; }
+- (void) setOldDataObjects:(NSArray *)anOldDataObjects {
 	if (_oldDataObjects != anOldDataObjects) {
 		_oldDataObjects = [anOldDataObjects mutableCopy];
 	}
 }
-
-- (NSMutableArray *)laces {
+- (NSMA*) laces {
 	NSMutableArray* _laces = [[NSMutableArray alloc]init];
 	
 	NSEnumerator *startObjects = [[self dataObjects] objectEnumerator];
@@ -233,12 +214,8 @@ float treshold(float x,float tr) {	return (x>0)?((x>tr)?x:tr):-x+tr;	}
 	
 	return _laces;
 }
-
-
 #pragma mark - *** drawing ***
-
-
--(void)drawLinkFrom:(NSPoint)startPoint to:(NSPoint)endPoint color:(NSColor *)insideColor {
+- (void) drawLinkFrom:(NSPoint)startPoint to:(NSPoint)endPoint color:(NSColor *)insideColor {
 	// a lace is made of an outside gray line of width 5, and a inside insideColor(ed) line of width 3
 	
 	NSPoint p0 = NSMakePoint(startPoint.x,startPoint.y );
@@ -290,12 +267,10 @@ float treshold(float x,float tr) {	return (x>0)?((x>tr)?x:tr):-x+tr;	}
 	[insideColor set];
 	[path stroke];
 }
-
 //- (BOOL)isOpaque {
 //	return YES;
 //}
-
-- (void)drawRect:(NSRect)rect {
+- (void) drawRect:(NSRect)rect {
 	
 	// Draw frame
 	//	NSEraseRect(rect);
@@ -350,18 +325,14 @@ float treshold(float x,float tr) {	return (x>0)?((x>tr)?x:tr):-x+tr;	}
 		[NSBezierPath strokeRect:rubber];
 	}
 }	
-
 #pragma mark - *** geometry ***
-
-- (void)deselectViews {
+- (void) deselectViews {
 	[_selectionIndexesContainer setValue:nil forKeyPath:_selectionIndexesKeyPath];
 }
-
-- (void)selectView:(EFView *)aView {
+- (void) selectView:(EFView *)aView {
 	[self selectView:aView state:YES];
 }
-
-- (void)selectView:(EFView *)aView state:(BOOL)select {
+- (void) selectView:(EFView *)aView state:(BOOL)select {
 	NSMutableIndexSet *selection = [[self selectionIndexes] mutableCopy];
 	unsigned int DataObjectIndex = [[self dataObjects] indexOfObject:[aView valueForKey:@"data"]];
 	if (select) {
@@ -371,14 +342,12 @@ float treshold(float x,float tr) {	return (x>0)?((x>tr)?x:tr):-x+tr;	}
 	}
 	[_selectionIndexesContainer setValue:selection forKeyPath:_selectionIndexesKeyPath];
 }
-
-- (NSArray*)selectedSubViews{
+- (NSA*) selectedSubViews{
 	NSArray *selectedDataObjects = [[self dataObjects] objectsAtIndexes:[self selectionIndexes]];
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"data IN %@", selectedDataObjects];
 	return [[self subviews] filteredArrayUsingPredicate:predicate];
 }
-
-- (BOOL)isStartHole:(NSPoint)aPoint {
+- (BOOL) isStartHole:(NSPoint)aPoint {
 	EFView *aView;
 	NSEnumerator *enu =[[self subviews] objectEnumerator];
 	while ((aView = [enu nextObject])) 	{
@@ -390,9 +359,7 @@ float treshold(float x,float tr) {	return (x>0)?((x>tr)?x:tr):-x+tr;	}
 	}
 	return NO;
 }
-
-- (BOOL)isEndHole:(NSPoint)aPoint
-{
+- (BOOL) isEndHole:(NSPoint)aPoint	{
 	EFView *aView;
 	NSEnumerator *enu =[[self subviews] objectEnumerator];
 	while ((aView = [enu nextObject])) {
@@ -404,9 +371,7 @@ float treshold(float x,float tr) {	return (x>0)?((x>tr)?x:tr):-x+tr;	}
 	}
 	return NO;
 }
-
 #pragma mark - *** connections ***
-
 - (void) connectHole:(id)startHole  toHole:(id)endHole {
 	if ([startHole valueForKey:@"data"] == [endHole valueForKey:@"data"]) {
 		return;
@@ -425,18 +390,15 @@ float treshold(float x,float tr) {	return (x>0)?((x>tr)?x:tr):-x+tr;	}
 	
 	[[startHole mutableSetValueForKey:@"laces"] addObject:endHole];
 }
-
 #pragma mark - *** events ***
-
 - (BOOL) acceptsFirstResponder {
 	return YES;
 }
-
-- (void)keyDown:(NSEvent*)theEvent {	
+- (void) keyDown:(NSEvent*)theEvent {	
 	if([theEvent keyCode] == kVK_Delete) {
 		if ([_dataObjectsContainer respondsToSelector:@selector(remove:)]) {
 			// remove selected item
-			[_dataObjectsContainer performSelector:@selector(remove:) withObject:self];
+			[_dataObjectsContainer performString:@"remove:" withObject:self];
 			[self setNeedsDisplay:YES];
 			return;
 		}
@@ -450,8 +412,7 @@ float treshold(float x,float tr) {	return (x>0)?((x>tr)?x:tr):-x+tr;	}
 	
 	NSBeep();
 }
-
--(void)mouseDown:(NSEvent*)theEvent {
+- (void) mouseDown:(NSEvent*)theEvent {
 	NSPoint mouseLoc = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	
 	// Did we click on a start hole ?

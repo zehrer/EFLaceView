@@ -3,16 +3,27 @@
 //  EFLaceViewCoreData
 //
 
-#import "MyDocument.h"
+#import "LaceDocument.h"
+#import <AtoZ/AtoZ.h>
 
-@implementation MyDocument
+@implementation LaceDocument
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        [self.managedObjectContext observeName:NSManagedObjectContextObjectsDidChangeNotification usingBlock:^(NSNotification *n) {
+				[$(@"Coredata doc did chamnge! %@\n", n.userInfo) log];
+		  }];
+    }
+    return self;
+}
 - (void)windowWillClose:(NSNotification *)aNotification {
 	if ([myView isDescendantOf: [[aNotification valueForKey:@"object"] contentView]]) {
 		[myView unbind:@"dataObjects"];	[myView unbind:@"selectionIndexes"];
 	}
 }
-- (NSString *)windowNibName {	return @"MyDocument";	}
+- (NSString *)windowNibName {	return @"LaceDocument";	}
 - (void)windowControllerDidLoadNib:(NSWindowController *)windowController {
 	[super windowControllerDidLoadNib:windowController];
 	// user interface preparation code

@@ -7,16 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		775BDEF1067A8BF0009058FE /* MyDocument.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 775BDEF0067A8BF0009058FE /* MyDocument.xcdatamodel */; };
 		775DFF38067A968500C5B868 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
-		7BBB87AC17441F9A0024704E /* AtoZ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BBB87AB17441F9A0024704E /* AtoZ.framework */; };
-		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
+		7B66D70E175D8A5300599B28 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7788DA0506752A1600599AAD /* CoreData.framework */; };
+		7BBB87B0174421180024704E /* MyDocument.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7BBB87AD174421180024704E /* MyDocument.xcdatamodeld */; };
 		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
 		8D15AC2E0486D014006FF6A4 /* LaceDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B4FDCFA73011CA2CEA /* LaceDocument.nib */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC310486D014006FF6A4 /* LaceDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* LaceDocument.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
-		B44DCB9F0A8645A100A661DE /* EFFake.m in Sources */ = {isa = PBXBuildFile; fileRef = B44DCB980A8645A100A661DE /* EFFake.m */; };
 		B4510C370A8886260058EAF4 /* EFLaceView.h in Headers */ = {isa = PBXBuildFile; fileRef = B44DCB990A8645A100A661DE /* EFLaceView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B4510C3A0A88862A0058EAF4 /* EFLaceView.m in Sources */ = {isa = PBXBuildFile; fileRef = B44DCB9A0A8645A100A661DE /* EFLaceView.m */; };
 		B4510C3D0A88862F0058EAF4 /* EFView.h in Headers */ = {isa = PBXBuildFile; fileRef = B44DCB9B0A8645A100A661DE /* EFView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -26,7 +24,6 @@
 		B4510C4D0A88864F0058EAF4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
 		B4510CB50A8888330058EAF4 /* EFLaceView.m in Sources */ = {isa = PBXBuildFile; fileRef = B44DCB9A0A8645A100A661DE /* EFLaceView.m */; };
 		B4510CB80A8888380058EAF4 /* EFView.m in Sources */ = {isa = PBXBuildFile; fileRef = B44DCB9C0A8645A100A661DE /* EFView.m */; };
-		B4510CBB0A88883D0058EAF4 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = B44DCB9E0A8645A100A661DE /* Utils.m */; };
 		B45A07090A8DFA8400BEB697 /* bug.icns in Resources */ = {isa = PBXBuildFile; fileRef = B45A07080A8DFA8400BEB697 /* bug.icns */; };
 /* End PBXBuildFile section */
 
@@ -42,9 +39,10 @@
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32DBCF750370BD2300C91783 /* EFLaceViewCoreData_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EFLaceViewCoreData_Prefix.pch; sourceTree = "<group>"; };
-		775BDEF0067A8BF0009058FE /* MyDocument.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = MyDocument.xcdatamodel; sourceTree = "<group>"; };
 		7788DA0506752A1600599AAD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		7BBB87AB17441F9A0024704E /* AtoZ.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AtoZ.framework; path = ../../../../../Library/Frameworks/AtoZ.framework; sourceTree = "<group>"; };
+		7B36C073175F781800C83750 /* withicon.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = withicon.xcdatamodel; sourceTree = "<group>"; };
+		7BBB87AE174421180024704E /* MyDocument.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyDocument.xcdatamodel; sourceTree = "<group>"; };
+		7BBB87AF174421180024704E /* UnifiedColor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UnifiedColor.xcdatamodel; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* EFLaceViewCoreData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EFLaceViewCoreData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B44DCB970A8645A100A661DE /* EFFake.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EFFake.h; sourceTree = "<group>"; };
@@ -65,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B66D70E175D8A5300599B28 /* CoreData.framework in Frameworks */,
 				775DFF38067A968500C5B868 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -73,7 +72,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7BBB87AC17441F9A0024704E /* AtoZ.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,7 +108,6 @@
 		2A37F4AAFDCFA73011CA2CEA /* EFLaceViewCoreData */ = {
 			isa = PBXGroup;
 			children = (
-				7BBB87AB17441F9A0024704E /* AtoZ.framework */,
 				E1B74B1A0667B4A90069E3BA /* Models */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
@@ -125,15 +122,11 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				B44DCB970A8645A100A661DE /* EFFake.h */,
-				B44DCB980A8645A100A661DE /* EFFake.m */,
+				7B66D70F175D8ABD00599B28 /* Disabled */,
 				B44DCB990A8645A100A661DE /* EFLaceView.h */,
 				B44DCB9A0A8645A100A661DE /* EFLaceView.m */,
 				B44DCB9B0A8645A100A661DE /* EFView.h */,
 				B44DCB9C0A8645A100A661DE /* EFView.m */,
-				B45A07080A8DFA8400BEB697 /* bug.icns */,
-				B44DCB9D0A8645A100A661DE /* Utils.h */,
-				B44DCB9E0A8645A100A661DE /* Utils.m */,
 				2A37F4AEFDCFA73011CA2CEA /* LaceDocument.h */,
 				2A37F4ACFDCFA73011CA2CEA /* LaceDocument.m */,
 			);
@@ -152,6 +145,7 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B45A07080A8DFA8400BEB697 /* bug.icns */,
 				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
 				2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */,
 				2A37F4B4FDCFA73011CA2CEA /* LaceDocument.nib */,
@@ -170,10 +164,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7B66D70F175D8ABD00599B28 /* Disabled */ = {
+			isa = PBXGroup;
+			children = (
+				B44DCB9D0A8645A100A661DE /* Utils.h */,
+				B44DCB9E0A8645A100A661DE /* Utils.m */,
+				B44DCB970A8645A100A661DE /* EFFake.h */,
+				B44DCB980A8645A100A661DE /* EFFake.m */,
+			);
+			name = Disabled;
+			sourceTree = "<group>";
+		};
 		E1B74B1A0667B4A90069E3BA /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				775BDEF0067A8BF0009058FE /* MyDocument.xcdatamodel */,
+				7BBB87AD174421180024704E /* MyDocument.xcdatamodeld */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -260,7 +265,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */,
 				8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */,
 				8D15AC2E0486D014006FF6A4 /* LaceDocument.nib in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
@@ -285,11 +289,9 @@
 			files = (
 				8D15AC310486D014006FF6A4 /* LaceDocument.m in Sources */,
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
-				775BDEF1067A8BF0009058FE /* MyDocument.xcdatamodel in Sources */,
-				B44DCB9F0A8645A100A661DE /* EFFake.m in Sources */,
 				B4510CB50A8888330058EAF4 /* EFLaceView.m in Sources */,
 				B4510CB80A8888380058EAF4 /* EFView.m in Sources */,
-				B4510CBB0A88883D0058EAF4 /* Utils.m in Sources */,
+				7BBB87B0174421180024704E /* MyDocument.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,6 +350,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -356,6 +359,7 @@
 				OTHER_LDFLAGS = (
 					"-framework",
 					AtoZ,
+					"-all_load",
 				);
 				PRODUCT_NAME = EFLaceViewCoreData;
 				SDKROOT = "";
@@ -369,6 +373,7 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = EFLaceViewCoreData_Prefix.pch;
@@ -376,6 +381,7 @@
 				OTHER_LDFLAGS = (
 					"-framework",
 					AtoZ,
+					"-all_load",
 				);
 				PRODUCT_NAME = EFLaceViewCoreData;
 				SDKROOT = "";
@@ -418,6 +424,11 @@
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"<Multiple",
+					"values>",
+					/Library/Frameworks,
+				);
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -443,6 +454,11 @@
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"<Multiple",
+					"values>",
+					/Library/Frameworks,
+				);
 				FRAMEWORK_VERSION = A;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -489,6 +505,21 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		7BBB87AD174421180024704E /* MyDocument.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				7BBB87AE174421180024704E /* MyDocument.xcdatamodel */,
+				7B36C073175F781800C83750 /* withicon.xcdatamodel */,
+				7BBB87AF174421180024704E /* UnifiedColor.xcdatamodel */,
+			);
+			currentVersion = 7B36C073175F781800C83750 /* withicon.xcdatamodel */;
+			path = MyDocument.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 }

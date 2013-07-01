@@ -6,7 +6,7 @@
 #import "EFFake.h"
 
 @implementation EFFake
-+ (NSArray*) keysForNonBoundsProperties		{
++ (NSA*) keysForNonBoundsProperties		{
 
 	static NSArray *keys = nil;
 	return keys = keys ?: @[@"tag", @"inputs", @"outputs", @"title", @"titleColor", @"verticalOffset",
@@ -29,10 +29,10 @@
 //	}
 //	return color;
 //} 
-//-     (void) setTitleColor:(NSColor*)aColor	{
+//-	 (void) setTitleColor:(NSColor*)aColor	{
 //
 //	[self willChangeValueForKey:															  @"titleColor"];
-//	[self setPrimitiveValue:aColor                                     forKey:@"titleColor"];
+//	[self setPrimitiveValue:aColor									 forKey:@"titleColor"];
 //	[self didChangeValueForKey:															  @"titleColor"];
 //	[self setValue:[NSKeyedArchiver archivedDataWithRootObject:aColor]forKey:@"colorAsData"];
 //} 

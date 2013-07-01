@@ -6,9 +6,15 @@
 #import <Cocoa/Cocoa.h>
 #import "EFLaceView.h"
 
-@interface LaceDocument : NSPersistentDocument 
-{
-	IBOutlet id controller;
-	IBOutlet EFLaceView* myView;
-}
+@interface ImageToDataTransformer : NSValueTransformer
 @end
+
+@interface LaceDocument : NSPersistentDocument 	
+@property (assign)	IBOutlet NSArrayController *controller;
+@property (assign)	IBOutlet EFLaceView* myView;
+@property (assign) IBOutlet NSSegmentedControl *insertRemove;
+@end
+
+@interface MiniatureAppDelegate : NSObject <NSApplicationDelegate>
+@end
+

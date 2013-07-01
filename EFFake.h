@@ -10,7 +10,7 @@
 
 @interface EFFake : NSManagedObject 
 
-+ (NSArray*) keysForNonBoundsProperties;
++ (NSA*) keysForNonBoundsProperties;
 - (NSColor*) titleColor;
 - 	   (void) setTitleColor: (NSColor*)aColor;
 

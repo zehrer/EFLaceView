@@ -6,40 +6,46 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface EFView : NSView  
-{
-	NSString*				_title;
-	NSColor*					_titleColor;
-	NSMutableSet*			_inputs;
-	NSMutableSet*			_outputs;
-	NSMutableDictionary*	_stringAttributes;
-	id							_data;
-	float						_verticalOffset;
-	int						_tag;
-}
+@class EFLaceView;
+@interface EFView : NSView
+@property (weak) IBOutlet NSArrayController* inputsController, *outputsCOntroller;
+@property (weak) EFLaceView* delegate;
+@property (nonatomic) NSMutableSet *inputs, *outputs;
 
-#pragma mark - *** class ***
 #pragma mark - *** holes ***
-- (NSArray*) orderedHoles:  (NSSet*)   aSet;
+- (NSA*) orderedHoles:  (NSSet*)   aSet;
 -  (NSPoint) startHolePoint:(id) aStartHole;
 -  (NSPoint) endHolePoint:  (id)   aEndHole;
--       (id) startHole:     (NSPoint)aPoint;
--       (id) endHole:       (NSPoint)aPoint;
+-	   (id) startHole:	 (NSPoint)aPoint;
+-	   (id) endHole:	   (NSPoint)aPoint;
 
 #pragma mark - *** setters and accessors ***
-@property (nonatomic,assign) 	float verticalOffset, width, height, originX, originY;						
-@property (readonly) 			BOOL isSelected;
-@property (nonatomic,strong) 	NSString *title;
-@property (nonatomic,strong) 	NSColor *titleColor;
+AZPROP( NSIMG,		 	 	  icon );
+AZPROP( NSS,			 	 title );
+AZPROP( NSC,   	  titleColor );
+AZPROP( NSMD, stringAttributes );
+
+@property	id	data;
+@property	int tag;
+
+@property (nonatomic,assign) 	CGF verticalOffset, width, height, originX, originY;						
+@property (readonly) 			BOOL 		isSelected;
+@property (nonatomic) 			BOOL 		shouldResize;
+@property (nonatomic) 			AZAlign 		resizeCorner;
+@property (nonatomic) 			NSP 		resizeDelta;
+@property (RONLY) NSBP	*resizePath;
+//@property (nonatomic,strong) 	NSString *title;
+//@property (nonatomic,strong) 	NSColor 	*titleColor;
+//@property (nonatomic,strong) 	NSImage 	*icon;
 #pragma mark drawingbounds
 
 #pragma mark inputs and outputs
 - (NSMutableSet*) inputs;
-- 	    (NSArray*) orderedInputs;
+- 		(NSA*) orderedInputs;
 - (NSMutableSet*) outputs;
-- 		 (NSArray*) orderedOutputs;
+- 		 (NSA*) orderedOutputs;
 #pragma mark - *** geometry ***
--        (NSSize) minimalSize;
+-		(NSSize) minimalSize;
 
 
 @end

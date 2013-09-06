@@ -14,6 +14,8 @@
 
 #import "EFFake.h"
 
+NSString *const cTitleColor = @"titleColor";
+NSString *const cColorAsData = @"colorAsData";
 
 @implementation EFFake
 + (NSArray *)keysForNonBoundsProperties
@@ -21,7 +23,7 @@
 	static NSArray *keys = nil;
     if (!keys)
     {
-		keys = @[@"tag",@"inputs",@"outputs",@"title",@"titleColor",@"verticalOffset",@"originX",@"originY",@"width",@"height"];
+		keys = @[@"tag",@"inputs",@"outputs",@"title",cTitleColor,@"verticalOffset",@"originX",@"originY",@"width",@"height"];
     }
     return keys;
 }
@@ -29,19 +31,19 @@
 
 - (NSColor *)titleColor
 {
-    [self willAccessValueForKey:@"titleColor"];
-    NSColor *color = [self primitiveValueForKey:@"titleColor"];
-    [self didAccessValueForKey:@"titleColor"];
+    [self willAccessValueForKey:cTitleColor];
+    NSColor *color = [self primitiveValueForKey:cTitleColor];
+    [self didAccessValueForKey:cTitleColor];
     if (color == nil) {
-        NSData *colorData = [self valueForKey:@"colorAsData"];
+        NSData *colorData = [self valueForKey:cColorAsData];
 		if (colorData == nil) {
 			[self setValue:[NSKeyedArchiver archivedDataWithRootObject:[NSColor grayColor]]
-					forKey:@"colorAsData"];
-				colorData = [self valueForKey:@"colorAsData"];
+					forKey:cColorAsData];
+				colorData = [self valueForKey:cColorAsData];
 		}
         if (colorData != nil) {
             color = [NSKeyedUnarchiver unarchiveObjectWithData:colorData];
-            [self setPrimitiveValue:color forKey:@"titleColor"];
+            [self setPrimitiveValue:color forKey:cTitleColor];
         }
     }
     return color;
@@ -49,11 +51,11 @@
 
 - (void)setTitleColor:(NSColor *)aColor
 {
-    [self willChangeValueForKey:@"titleColor"];
-    [self setPrimitiveValue:aColor forKey:@"titleColor"];
-    [self didChangeValueForKey:@"titleColor"];
+    [self willChangeValueForKey:cTitleColor];
+    [self setPrimitiveValue:aColor forKey:cTitleColor];
+    [self didChangeValueForKey:cTitleColor];
     [self setValue:[NSKeyedArchiver archivedDataWithRootObject:aColor]
-			forKey:@"colorAsData"];
+			forKey:cColorAsData];
 } 
 
 @end

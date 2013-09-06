@@ -33,14 +33,14 @@
 
 
 - (NSString *)windowNibName {
-    return @"MyDocument";
+    return @"Document";
 }
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)windowController {
     [super windowControllerDidLoadNib:windowController];
     // user interface preparation code
-	[myView bind: @"dataObjects" toObject: controller withKeyPath:@"arrangedObjects" options:nil];
-	[myView bind: @"selectionIndexes" toObject: controller withKeyPath:@"selectionIndexes" options:nil];
+	[myView bind:@"dataObjects" toObject: controller withKeyPath:@"arrangedObjects" options:nil];
+	[myView bind:@"selectionIndexes" toObject: controller withKeyPath:@"selectionIndexes" options:nil];
 }
 
 - (void)printShowingPrintPanel:(BOOL)showPanels {

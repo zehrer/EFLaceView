@@ -20,9 +20,7 @@ static void *_dataObjectsObservationContext = (void *)1092;
 static void *_selectionIndexesObservationContext = (void *)1093;
 
 
-#warning TODO : implement delegates
-
-
+// TODO : implement delegates
 
 @implementation EFLaceView
 

@@ -109,6 +109,7 @@
 			children = (
 				E1B74B1A0667B4A90069E3BA /* Models */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
+				AA5F539317D9B172009D8D07 /* Framework */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
@@ -123,13 +124,7 @@
 			children = (
 				B44DCB970A8645A100A661DE /* EFFake.h */,
 				B44DCB980A8645A100A661DE /* EFFake.m */,
-				B44DCB990A8645A100A661DE /* EFLaceView.h */,
-				B44DCB9A0A8645A100A661DE /* EFLaceView.m */,
-				B44DCB9B0A8645A100A661DE /* EFView.h */,
-				B44DCB9C0A8645A100A661DE /* EFView.m */,
 				B45A07080A8DFA8400BEB697 /* bug.icns */,
-				B44DCB9D0A8645A100A661DE /* Utils.h */,
-				B44DCB9E0A8645A100A661DE /* Utils.m */,
 				2A37F4AEFDCFA73011CA2CEA /* MyDocument.h */,
 				2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */,
 			);
@@ -164,6 +159,19 @@
 				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AA5F539317D9B172009D8D07 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				B44DCB9B0A8645A100A661DE /* EFView.h */,
+				B44DCB9C0A8645A100A661DE /* EFView.m */,
+				B44DCB990A8645A100A661DE /* EFLaceView.h */,
+				B44DCB9A0A8645A100A661DE /* EFLaceView.m */,
+				B44DCB9D0A8645A100A661DE /* Utils.h */,
+				B44DCB9E0A8645A100A661DE /* Utils.m */,
+			);
+			name = Framework;
 			sourceTree = "<group>";
 		};
 		E1B74B1A0667B4A90069E3BA /* Models */ = {
@@ -208,20 +216,20 @@
 			productReference = 8D15AC370486D014006FF6A4 /* EFLaceViewCoreData.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B4510C270A8885E80058EAF4 /* EFLaceViewLib */ = {
+		B4510C270A8885E80058EAF4 /* EFLaceView */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B4510C2A0A8885E90058EAF4 /* Build configuration list for PBXNativeTarget "EFLaceViewLib" */;
+			buildConfigurationList = B4510C2A0A8885E90058EAF4 /* Build configuration list for PBXNativeTarget "EFLaceView" */;
 			buildPhases = (
+				B4510C250A8885E80058EAF4 /* Sources */,
 				B4510C230A8885E80058EAF4 /* Headers */,
 				B4510C240A8885E80058EAF4 /* Resources */,
-				B4510C250A8885E80058EAF4 /* Sources */,
 				B4510C260A8885E80058EAF4 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = EFLaceViewLib;
+			name = EFLaceView;
 			productName = EFLaceViewLib;
 			productReference = B4510C280A8885E80058EAF4 /* EFLaceViewLib.framework */;
 			productType = "com.apple.product-type.framework";
@@ -246,7 +254,7 @@
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* EFLaceViewCoreData */,
-				B4510C270A8885E80058EAF4 /* EFLaceViewLib */,
+				B4510C270A8885E80058EAF4 /* EFLaceView */,
 			);
 		};
 /* End PBXProject section */
@@ -506,7 +514,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B4510C2A0A8885E90058EAF4 /* Build configuration list for PBXNativeTarget "EFLaceViewLib" */ = {
+		B4510C2A0A8885E90058EAF4 /* Build configuration list for PBXNativeTarget "EFLaceView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B4510C2B0A8885E90058EAF4 /* Debug */,

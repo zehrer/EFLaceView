@@ -486,4 +486,17 @@ static void *_inoutputObservationContext = (void *)1094;
 		[[self superview] setNeedsDisplay:YES];
 	}
 }
+
+
+#pragma mark -
+#pragma mark *** color ***
+
+- (void)changeColor:(id)sender;
+{
+    NSColor *color = [sender color];
+    if (color) {
+        [self setTitleColor:color];
+    }
+}
+
 @end

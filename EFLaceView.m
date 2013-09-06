@@ -22,6 +22,10 @@ static void *_selectionIndexesObservationContext = (void *)1093;
 
 // TODO : implement delegates
 
+NSString *const cDataObjects = @"dataObjects";
+NSString *const cSelectionIndexes = @"selectionIndexes";
+NSString *const cSelectedObjects = @"selectedObjects";
+
 @implementation EFLaceView
 
 #pragma mark -
@@ -36,51 +40,58 @@ float treshold(float x,float tr) {
 #pragma mark *** bindings ***
 
 + (void)initialize {
-	[self exposeBinding:@"dataObjects"];
-	[self exposeBinding:@"selectionIndexes"];
+	[self exposeBinding:cDataObjects];
+	[self exposeBinding:cSelectionIndexes];
 }
 
 - (NSArray *)exposedBindings {
-	return @[@"dataObjects", @"selectedObjects"];
+	return @[cDataObjects, cSelectedObjects];
 } 
 
 + (NSSet *)keyPathsForValuesAffectingLaces {
-    return [NSSet setWithObjects:@"dataObjects", nil];
+    return [NSSet setWithObjects:cDataObjects, nil];
 } 
 
 - (void)bind:(NSString *)bindingName toObject:(id)observableObject withKeyPath:(NSString *)observableKeyPath options:(NSDictionary *)options {
-    if ([bindingName isEqualToString:@"dataObjects"]) {
+    if ([bindingName isEqualToString:cDataObjects]) {
+
 		_dataObjectsContainer = observableObject;
 		_dataObjectsKeyPath = observableKeyPath;
 		[_dataObjectsContainer addObserver:self forKeyPath:_dataObjectsKeyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:_dataObjectsObservationContext];
+        
 		[self startObservingDataObjects:[self dataObjects]];
 		[self setOldDataObjects:[self dataObjects]];
-    } else if ([bindingName isEqualToString:@"selectionIndexes"]) {
-		_selectionIndexesContainer = observableObject;
+        
+    } else if ([bindingName isEqualToString:cSelectionIndexes]) {
+		
+        _selectionIndexesContainer = observableObject;
 		_selectionIndexesKeyPath = observableKeyPath;
 		[_selectionIndexesContainer addObserver:self forKeyPath:_selectionIndexesKeyPath options:0 context:_selectionIndexesObservationContext];
+    
     } else {
 		[super bind:bindingName toObject:observableObject withKeyPath:observableKeyPath options:options];
-	}	
+	}
+    
     [self setNeedsDisplay:YES];
 }
 
 
 - (void)unbind:(NSString *)bindingName {
-    if ([bindingName isEqualToString:@"dataObjects"]) {
+    
+    if ([bindingName isEqualToString:cDataObjects]) {
 		[self stopObservingDataObjects:[self dataObjects]];
 		[_dataObjectsContainer removeObserver:self forKeyPath:_dataObjectsKeyPath];
 		_dataObjectsContainer = nil;
 		_dataObjectsKeyPath = nil;
-    }
-	if ([bindingName isEqualToString:@"selectionIndexes"]) {
+    } else if ([bindingName isEqualToString:cSelectionIndexes]) {
 		[_selectionIndexesContainer removeObserver:self forKeyPath:_selectionIndexesKeyPath];
 		_selectionIndexesContainer = nil;
 		_selectionIndexesKeyPath = nil;
 	} else {
 		[super unbind:bindingName];
 	}
-	[self setNeedsDisplay:YES];
+	
+    [self setNeedsDisplay:YES];
 }
 
 - (void)startObservingDataObjects:(NSArray *)dataObjects {

@@ -440,7 +440,7 @@ static void *_inoutputObservationContext = (void *)1094;
 
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if (((keyPath == @"inputs") || keyPath == @"outputs") && (context == _inoutputObservationContext)) {
+    if ((([keyPath isEqualToString:@"inputs"]) || [keyPath isEqualToString:@"outputs"]) && (context == _inoutputObservationContext)) {
 		
 		NSSet *new = [change valueForKey:@"new"];
 		NSSet *old = [change valueForKey:@"old"];
@@ -472,12 +472,12 @@ static void *_inoutputObservationContext = (void *)1094;
 		[[self superview] setNeedsDisplay:YES];
 		
     }
-	if ((keyPath == @"label") && (context == _inoutputObservationContext) ) {
+	if (([keyPath isEqualToString:@"label"]) && (context == _inoutputObservationContext) ) {
 		//update size and redraw
 		[self setWidth:MAX([self minimalSize].width,[self width])];
 		[self setHeight:MAX([self minimalSize].height,[self height])];
 	}
-	if ((keyPath == @"position") && (context == _inoutputObservationContext) ) {
+	if (([keyPath isEqualToString:@"position"]) && (context == _inoutputObservationContext) ) {
 		//redraw superview (laces may have changed because of positions of labels)
 		[[self superview] setNeedsDisplay:YES];
 	}

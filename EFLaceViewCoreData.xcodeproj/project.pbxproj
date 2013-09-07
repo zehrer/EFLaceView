@@ -53,7 +53,7 @@
 		B44DCB9C0A8645A100A661DE /* EFView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EFView.m; sourceTree = "<group>"; };
 		B44DCB9D0A8645A100A661DE /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		B44DCB9E0A8645A100A661DE /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
-		B4510C280A8885E80058EAF4 /* EFLaceViewLib.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EFLaceViewLib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B4510C280A8885E80058EAF4 /* EFLaceView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EFLaceView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4510C290A8885E80058EAF4 /* EFLaceViewLib-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "EFLaceViewLib-Info.plist"; sourceTree = "<group>"; };
 		B45A07080A8DFA8400BEB697 /* bug.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = bug.icns; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -77,29 +77,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
-			);
-			name = "Linked Frameworks";
-			sourceTree = "<group>";
-		};
-		1058C7A8FEA54F5311CA2CBB /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
-				7788DA0506752A1600599AAD /* CoreData.framework */,
-				2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */,
-			);
-			name = "Other Frameworks";
-			sourceTree = "<group>";
-		};
 		19C28FB0FE9D524F11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				8D15AC370486D014006FF6A4 /* EFLaceViewCoreData.app */,
-				B4510C280A8885E80058EAF4 /* EFLaceViewLib.framework */,
+				B4510C280A8885E80058EAF4 /* EFLaceView.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -114,7 +96,6 @@
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
-				B4510C290A8885E80058EAF4 /* EFLaceViewLib-Info.plist */,
 			);
 			name = EFLaceViewCoreData;
 			sourceTree = "<group>";
@@ -135,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				32DBCF750370BD2300C91783 /* EFLaceViewCoreData_Prefix.pch */,
+				B4510C290A8885E80058EAF4 /* EFLaceViewLib-Info.plist */,
 				2A37F4B0FDCFA73011CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
@@ -155,8 +137,10 @@
 		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */,
-				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
+				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
+				7788DA0506752A1600599AAD /* CoreData.framework */,
+				2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */,
+				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -231,7 +215,7 @@
 			);
 			name = EFLaceView;
 			productName = EFLaceViewLib;
-			productReference = B4510C280A8885E80058EAF4 /* EFLaceViewLib.framework */;
+			productReference = B4510C280A8885E80058EAF4 /* EFLaceView.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -451,7 +435,7 @@
 					"-framework",
 					AppKit,
 				);
-				PRODUCT_NAME = EFLaceViewLib;
+				PRODUCT_NAME = EFLaceView;
 				SDKROOT = macosx;
 				ZERO_LINK = YES;
 			};
@@ -479,7 +463,7 @@
 					"-framework",
 					AppKit,
 				);
-				PRODUCT_NAME = EFLaceViewLib;
+				PRODUCT_NAME = EFLaceView;
 				SDKROOT = macosx;
 				ZERO_LINK = NO;
 			};

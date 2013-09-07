@@ -120,6 +120,9 @@ float treshold(float x,float tr) {
 		[dummy bind:@"inputs" toObject:newDataObject withKeyPath:@"inputs" options:nil];
 		[dummy bind:@"outputs" toObject:newDataObject withKeyPath:@"outputs" options:nil];
 		
+        // BugFix: color updated  dummy -> newDataObject was missing 
+        [newDataObject bind:@"titleColor" toObject:dummy withKeyPath:@"titleColor" options:nil];
+        
 		[newDataObject bind:@"originX" toObject:dummy withKeyPath:@"originX" options:nil];
 		[newDataObject bind:@"originY" toObject:dummy withKeyPath:@"originY" options:nil];
 		[newDataObject bind:@"width" toObject:dummy withKeyPath:@"width" options:nil];

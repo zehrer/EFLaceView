@@ -27,7 +27,7 @@
 - (void)windowWillClose:(NSNotification *)aNotification {
 	if ([myView isDescendantOf: [[aNotification valueForKey:@"object"] contentView]]) {
 		[myView unbind:@"dataObjects"];
-		[myView unbind:@"selectionIndexes"];
+		[myView unbind:NSSelectionIndexesBinding];
 	}
 }
 
@@ -40,7 +40,7 @@
     [super windowControllerDidLoadNib:windowController];
     // user interface preparation code
 	[myView bind:@"dataObjects" toObject: controller withKeyPath:@"arrangedObjects" options:nil];
-	[myView bind:@"selectionIndexes" toObject: controller withKeyPath:@"selectionIndexes" options:nil];
+	[myView bind:NSSelectionIndexesBinding toObject: controller withKeyPath:NSSelectionIndexesBinding options:nil];
 }
 
 - (void)printShowingPrintPanel:(BOOL)showPanels {

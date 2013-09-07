@@ -23,8 +23,10 @@ static void *_selectionIndexesObservationContext = (void *)1093;
 // TODO : implement delegates
 
 NSString *const cDataObjects = @"dataObjects";
-NSString *const cSelectionIndexes = @"selectionIndexes";
-NSString *const cSelectedObjects = @"selectedObjects";
+//NSString *const cSelectionIndexes = @"selectionIndexes";
+//NSString *const cSelectedObjects = @"selectedObjects";
+
+
 
 @implementation EFLaceView
 
@@ -40,12 +42,12 @@ float treshold(float x,float tr) {
 #pragma mark *** bindings ***
 
 + (void)initialize {
-	[self exposeBinding:cDataObjects];
-	[self exposeBinding:cSelectionIndexes];
+	[self exposeBinding:NSSelectedObjectsBinding];
+	[self exposeBinding:NSSelectionIndexesBinding];
 }
 
 - (NSArray *)exposedBindings {
-	return @[cDataObjects, cSelectedObjects];
+	return @[cDataObjects, NSSelectedObjectsBinding];
 } 
 
 + (NSSet *)keyPathsForValuesAffectingLaces {
@@ -62,7 +64,7 @@ float treshold(float x,float tr) {
 		[self startObservingDataObjects:[self dataObjects]];
 		[self setOldDataObjects:[self dataObjects]];
         
-    } else if ([bindingName isEqualToString:cSelectionIndexes]) {
+    } else if ([bindingName isEqualToString:NSSelectionIndexesBinding]) {
 		
         _selectionIndexesContainer = observableObject;
 		_selectionIndexesKeyPath = observableKeyPath;
@@ -83,7 +85,7 @@ float treshold(float x,float tr) {
 		[_dataObjectsContainer removeObserver:self forKeyPath:_dataObjectsKeyPath];
 		_dataObjectsContainer = nil;
 		_dataObjectsKeyPath = nil;
-    } else if ([bindingName isEqualToString:cSelectionIndexes]) {
+    } else if ([bindingName isEqualToString:NSSelectionIndexesBinding]) {
 		[_selectionIndexesContainer removeObserver:self forKeyPath:_selectionIndexesKeyPath];
 		_selectionIndexesContainer = nil;
 		_selectionIndexesKeyPath = nil;

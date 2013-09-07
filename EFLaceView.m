@@ -158,6 +158,8 @@ float treshold(float x,float tr) {
 		[oldDataObject unbind:@"heigth"];
 		[oldDataObject unbind:@"inputs"];
 		[oldDataObject unbind:@"outputs"];
+        
+        [oldDataObject unbind:@"titleColor"];
 		
 		for (EFView *aView in [[self subviews] copy]) {
 			if ([aView valueForKey:@"data"] == oldDataObject) {

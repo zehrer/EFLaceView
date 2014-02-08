@@ -57,10 +57,12 @@ static void *_inoutputObservationContext = (void *)1094;
 	for (id anObject in _inputs) {
 		[anObject removeObserver:self forKeyPath:@"label"];
 		[anObject removeObserver:self forKeyPath:@"position"];
+        [anObject removeObserver:self forKeyPath:@"laces"];
 	}
 	for (id anObject in _outputs) {
 		[anObject removeObserver:self forKeyPath:@"label"];
 		[anObject removeObserver:self forKeyPath:@"position"];
+        [anObject removeObserver:self forKeyPath:@"laces"];
 	}
 	[super removeFromSuperview];
 }

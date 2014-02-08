@@ -11,6 +11,7 @@
 //	-	Neither the name of Edouard FISCHER nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 
 //  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
 #import "EFLaceView.h"
 #import "EFView.h"
 #import <Carbon/Carbon.h> // 4 keyCodes
@@ -18,9 +19,6 @@
 static void *_propertyObservationContext = (void *)1091;
 static void *_dataObjectsObservationContext = (void *)1092;
 static void *_selectionIndexesObservationContext = (void *)1093;
-
-
-// TODO : implement delegates
 
 NSString *const cDataObjects = @"dataObjects";
 //NSString *const cSelectionIndexes = @"selectionIndexes";
@@ -360,6 +358,11 @@ float treshold(float x,float tr) {
 	//	{
 	//		NSFrameRect([self bounds]);
 	//	}
+    
+    if (self.delegate && ![self.delegate ShouldDrawEFLaceView:self])
+    {
+        return;
+    }
 	
 	// Draw laces
 	for (id startObject in [self dataObjects]) {
@@ -420,6 +423,10 @@ float treshold(float x,float tr) {
 }
 
 - (void)selectView:(EFView *)aView state:(BOOL)select {
+    if (self.delegate && ![self.delegate EFLaceView:self shouldSelectView:aView state:select])
+    {
+        return;
+    }
 	NSMutableIndexSet *selection = [[self selectionIndexes] mutableCopy];
 	unsigned int DataObjectIndex = [[self dataObjects] indexOfObject:[aView valueForKey:@"data"]];
 	if (select) {
@@ -467,6 +474,10 @@ float treshold(float x,float tr) {
 #pragma mark *** connections ***
 
 - (void) connectHole:(id)startHole  toHole:(id)endHole {
+    if (self.delegate && ![self.delegate EFLaceView:self shouldConnectHole:startHole toHole:endHole])
+    {
+        return;
+    }
 	if ([startHole valueForKey:@"data"] == [endHole valueForKey:@"data"]) {
 		return;
 	}
@@ -492,7 +503,11 @@ float treshold(float x,float tr) {
 	return YES;
 }
 
-- (void)keyDown:(NSEvent*)theEvent {	
+- (void)keyDown:(NSEvent*)theEvent {
+	if (self.delegate && ![self.delegate ShouldInteractWithLaceView:self])
+    {
+        return;
+    }
 	if([theEvent keyCode] == kVK_Delete) {
 		if ([_dataObjectsContainer respondsToSelector:@selector(remove:)]) {
 			// remove selected item
@@ -512,6 +527,10 @@ float treshold(float x,float tr) {
 }
 
 -(void)mouseDown:(NSEvent*)theEvent {
+    if (self.delegate && ![self.delegate ShouldInteractWithLaceView:self])
+    {
+        return;
+    }
 	NSPoint mouseLoc = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	
 	// Did we click on a start hole ?

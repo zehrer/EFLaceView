@@ -87,9 +87,10 @@
 
 @interface NSObject (EFLaceViewDelegateMethod)
 
-- (BOOL)EFLaceView:(EFLaceView*)aView shouldSelectView:(EFView *)aView state:(BOOL)aBool;
-- (BOOL)EFLaceView:(EFLaceView*)aView shouldSelectLace:(NSDictionary*)aLace;
-- (BOOL)EFLaceView:(EFLaceView*)aView shouldConnectHole:(id)startHole toHole:(id)endHole;
-- (BOOL)EFLaceView:(EFLaceView*)aView shouldDrawView:(EFView *)aView;
+- (BOOL)EFLaceView:(EFLaceView*)parentView shouldSelectView:(EFView *)aView state:(BOOL)aBool;
+- (BOOL)EFLaceView:(EFLaceView*)parentView shouldConnectHole:(id)startHole toHole:(id)endHole;
+- (BOOL)EFLaceView:(EFLaceView*)parentView shouldDrawView:(EFView *)aView;
+- (BOOL)ShouldDrawEFLaceView:(EFLaceView*)parentView;
+- (BOOL)ShouldInteractWithLaceView:(EFLaceView *)parentView;
 
 @end

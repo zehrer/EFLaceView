@@ -285,6 +285,15 @@ static void *_inoutputObservationContext = (void *)1094;
 #pragma mark *** drawing ***
 
 - (void)drawRect:(NSRect)rect {
+    id sview = [self superview];
+    if (sview)
+    {
+        id delegate = [sview delegate];
+        if (delegate && ![delegate EFLaceView:sview shouldDrawView:self])
+        {
+            return;
+        }
+    }
 	NSRect bounds = NSInsetRect([self bounds],4,4);
 	const float backgroundAlpha = 0.7;
 	NSSize stringSize = [[self title] sizeWithAttributes:_stringAttributes];

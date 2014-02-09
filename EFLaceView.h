@@ -39,19 +39,15 @@
 	EFView*			_endSubView;
 	
 	id				_delegate;
-	
 }
 
-
-#pragma mark -
-#pragma mark *** bindings ***
+#pragma mark bindings
 
 - (void)startObservingDataObjects:(NSArray *)dataObjects;
 - (void)stopObservingDataObjects:(NSArray *)dataObjects;
 
 
-#pragma mark -
-#pragma mark *** setters and accessors
+#pragma mark setters and accessors
 
 - (id)delegate;
 - (void)setDelegate:(id)newDelegate;
@@ -66,8 +62,7 @@
 - (NSArray *)oldDataObjects;
 - (void)setOldDataObjects:(NSArray *)anOldDataObjects;
 
-#pragma mark -
-#pragma mark *** geometry ***
+#pragma mark geometry
 
 - (BOOL)isStartHole:(NSPoint)aPoint;
 - (BOOL)isEndHole:(NSPoint)aPoint;
@@ -82,7 +77,9 @@
 @end
 
 @interface NSObject (EFLaceViewDataObject)
+
 + (NSArray *)keysForNonBoundsProperties;
+
 @end
 
 @interface NSObject (EFLaceViewDelegateMethod)

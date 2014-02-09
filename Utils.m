@@ -2,13 +2,15 @@
 
 
 // CoreGraphics gradient helpers
-typedef struct {
+typedef struct
+{
   CGFloat red1, green1, blue1, alpha1;
   CGFloat red2, green2, blue2, alpha2;
 } _twoColorsType;
 
 void _linearColorBlendFunction(void *info, const CGFloat *in, CGFloat *out);
-void _linearColorBlendFunction(void *info, const CGFloat *in, CGFloat *out) {
+void _linearColorBlendFunction(void *info, const CGFloat *in, CGFloat *out)
+{
   _twoColorsType *twoColors = info;
   out[0] = (1.0 - *in) * twoColors->red1 + *in * twoColors->red2;
   out[1] = (1.0 - *in) * twoColors->green1 + *in * twoColors->green2;
@@ -17,7 +19,8 @@ void _linearColorBlendFunction(void *info, const CGFloat *in, CGFloat *out) {
 }
 
 void _linearColorReleaseInfoFunction(void *info);
-void _linearColorReleaseInfoFunction(void *info) {
+void _linearColorReleaseInfoFunction(void *info)
+{
   free(info);
 }
 
@@ -25,9 +28,10 @@ static const CGFunctionCallbacks linearFunctionCallbacks = {0, &_linearColorBlen
 static const CGFloat domainAndRange[8] = {0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0};
 
 
-
 @implementation NSBezierPath(RoundedRectangle)
-+ (NSBezierPath*)bezierPathWithRoundedRect:(NSRect)aRect radius:(float)radius {
+
++ (NSBezierPath*)bezierPathWithRoundedRect:(NSRect)aRect radius:(float)radius
+{
    NSBezierPath* path = [self bezierPath];
    //radius = MIN(radius, 0.5f * MIN(NSWidth(aRect), NSHeight(aRect)));
    NSRect rect = NSInsetRect(aRect, radius, radius);
@@ -39,7 +43,8 @@ static const CGFloat domainAndRange[8] = {0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0
    return path;
 }
 
-+ (NSBezierPath*)bezierPathWithTopRoundedRect:(NSRect)aRect radius:(float)radius {
++ (NSBezierPath*)bezierPathWithTopRoundedRect:(NSRect)aRect radius:(float)radius
+{
    NSBezierPath* path = [self bezierPath];
    //radius = MIN(radius, 0.5f * MIN(NSWidth(aRect), NSHeight(aRect)));
    NSRect rect = NSInsetRect(aRect, radius, radius);
@@ -51,7 +56,8 @@ static const CGFloat domainAndRange[8] = {0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0
    return path;
 }
 
-+ (NSBezierPath*)bezierPathWithBottomRoundedRect:(NSRect)aRect radius:(float)radius {
++ (NSBezierPath*)bezierPathWithBottomRoundedRect:(NSRect)aRect radius:(float)radius
+{
    NSBezierPath* path = [self bezierPath];
    //radius = MIN(radius, 0.5f * MIN(NSWidth(aRect), NSHeight(aRect)));
    NSRect rect = NSInsetRect(aRect, radius, radius);
@@ -63,7 +69,8 @@ static const CGFloat domainAndRange[8] = {0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0
    return path;
 }
 
-- (void)gradientFillWithColor:(NSColor*)color {
+- (void)gradientFillWithColor:(NSColor*)color
+{
 	// Take the color apart
 	CGFloat hue, saturation, brightness, alpha;
 	[[color colorUsingColorSpaceName:NSDeviceRGBColorSpace] getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
@@ -84,7 +91,8 @@ static const CGFloat domainAndRange[8] = {0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0
 	CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
     CGContextSaveGState(context); 
 	[self addClip];
-	{	CGShadingRef cgShading = CGShadingCreateAxial(colorSpace,CGPointMake(0, NSMaxY(bounds)), CGPointMake(0, NSMinY(bounds)), linearBlendFunctionRef, NO, NO);
+	{
+        CGShadingRef cgShading = CGShadingCreateAxial(colorSpace,CGPointMake(0, NSMaxY(bounds)), CGPointMake(0, NSMinY(bounds)), linearBlendFunctionRef, NO, NO);
 		CGContextDrawShading(context, cgShading);
 		CGShadingRelease(cgShading);
     } 

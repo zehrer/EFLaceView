@@ -167,7 +167,7 @@ float treshold(float x,float tr)
 		[oldDataObject unbind:@"originX"];
 		[oldDataObject unbind:@"originY"];
 		[oldDataObject unbind:@"width"];
-		[oldDataObject unbind:@"heigth"];
+		[oldDataObject unbind:@"height"];
 		[oldDataObject unbind:@"inputs"];
 		[oldDataObject unbind:@"outputs"];
         [oldDataObject unbind:@"titleColor"];

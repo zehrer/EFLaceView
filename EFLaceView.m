@@ -32,6 +32,11 @@ float treshold(float x,float tr)
 	return (x>0)?((x>tr)?x:tr):-x+tr;
 }
 
+- (BOOL)isFlipped
+{
+    return YES;
+}
+
 #pragma mark bindings
 
 + (void)initialize

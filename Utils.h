@@ -1,6 +1,7 @@
 #import <Cocoa/Cocoa.h>
 
 @interface NSBezierPath(RoundedRectangle)
+
 /*
  * Returns a closed bezier path describing a rectangle with curved corners
  * The corner radius will be trimmed to not exceed half of the lesser rectangle dimension.
@@ -14,4 +15,5 @@
  * <http://www.wilshipley.com/blog/2005/07/pimp-my-code-part-3-gradient.html>
  */
 - (void)gradientFillWithColor:(NSColor*)color;
+
 @end

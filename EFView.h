@@ -14,7 +14,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface EFView : NSView  {
+@interface EFView : NSView
+{
 	int						_tag;
 	NSString*				_title;
 	NSColor*				_titleColor;
@@ -31,6 +32,7 @@
 
 #pragma mark -
 #pragma mark *** holes ***
+
 - (NSArray *)orderedHoles:(NSSet *)aSet;
 - (NSPoint)startHolePoint:(id) aStartHole;
 - (NSPoint)endHolePoint:(id) aEndHole;
@@ -56,6 +58,7 @@
 - (void)setTitleColor:(NSColor *)aColor;
 
 #pragma mark drawingbounds
+
 - (float) originX;
 - (float) originY;
 - (float) width;
@@ -66,6 +69,7 @@
 - (void) setHeight:(float)aFloat;
 
 #pragma mark inputs and outputs
+
 - (NSMutableSet*)inputs;
 - (NSArray *)orderedInputs;
 
@@ -74,6 +78,7 @@
 
 #pragma mark -
 #pragma mark *** geometry ***
+
 - (NSSize) minimalSize;
 
 

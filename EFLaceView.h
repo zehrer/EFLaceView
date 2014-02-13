@@ -39,19 +39,15 @@
 	EFView*			_endSubView;
 	
 	id				_delegate;
-	
 }
 
-
-#pragma mark -
-#pragma mark *** bindings ***
+#pragma mark bindings
 
 - (void)startObservingDataObjects:(NSArray *)dataObjects;
 - (void)stopObservingDataObjects:(NSArray *)dataObjects;
 
 
-#pragma mark -
-#pragma mark *** setters and accessors
+#pragma mark setters and accessors
 
 - (id)delegate;
 - (void)setDelegate:(id)newDelegate;
@@ -66,8 +62,7 @@
 - (NSArray *)oldDataObjects;
 - (void)setOldDataObjects:(NSArray *)anOldDataObjects;
 
-#pragma mark -
-#pragma mark *** geometry ***
+#pragma mark geometry
 
 - (BOOL)isStartHole:(NSPoint)aPoint;
 - (BOOL)isEndHole:(NSPoint)aPoint;
@@ -82,14 +77,17 @@
 @end
 
 @interface NSObject (EFLaceViewDataObject)
+
 + (NSArray *)keysForNonBoundsProperties;
+
 @end
 
 @interface NSObject (EFLaceViewDelegateMethod)
 
-- (BOOL)EFLaceView:(EFLaceView*)aView shouldSelectView:(EFView *)aView state:(BOOL)aBool;
-- (BOOL)EFLaceView:(EFLaceView*)aView shouldSelectLace:(NSDictionary*)aLace;
-- (BOOL)EFLaceView:(EFLaceView*)aView shouldConnectHole:(id)startHole toHole:(id)endHole;
-- (BOOL)EFLaceView:(EFLaceView*)aView shouldDrawView:(EFView *)aView;
+- (BOOL)EFLaceView:(EFLaceView*)parentView shouldSelectView:(EFView *)aView state:(BOOL)aBool;
+- (BOOL)EFLaceView:(EFLaceView*)parentView shouldConnectHole:(id)startHole toHole:(id)endHole;
+- (BOOL)EFLaceView:(EFLaceView*)parentView shouldDrawView:(EFView *)aView;
+- (BOOL)ShouldDrawEFLaceView:(EFLaceView*)parentView;
+- (BOOL)ShouldInteractWithLaceView:(EFLaceView *)parentView;
 
 @end

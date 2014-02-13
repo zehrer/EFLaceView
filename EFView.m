@@ -21,15 +21,18 @@ static void *_inoutputObservationContext = (void *)1094;
 
 @implementation EFView
 
-#pragma mark -
-#pragma mark *** init routines ***
-- (id) init {
+#pragma mark init routines
+
+- (id) init
+{
 	return [self initWithFrame:NSMakeRect(0,0,10,10)];
 }
 
-- (id)initWithFrame:(NSRect)frame {
+- (id)initWithFrame:(NSRect)frame
+{
 	self = [super initWithFrame:frame];
-    if (self) {
+    if (self)
+    {
 		_inputs = [[NSMutableSet alloc] init];
 		_outputs = [[NSMutableSet alloc] init];
 		
@@ -53,84 +56,101 @@ static void *_inoutputObservationContext = (void *)1094;
     return self;
 }
 
-- (void)removeFromSuperview {
-	for (id anObject in _inputs) {
+- (void)removeFromSuperview
+{
+	for (id anObject in _inputs)
+    {
 		[anObject removeObserver:self forKeyPath:@"label"];
 		[anObject removeObserver:self forKeyPath:@"position"];
+        [anObject removeObserver:self forKeyPath:@"laces"];
 	}
-	for (id anObject in _outputs) {
+	for (id anObject in _outputs)
+    {
 		[anObject removeObserver:self forKeyPath:@"label"];
 		[anObject removeObserver:self forKeyPath:@"position"];
+        [anObject removeObserver:self forKeyPath:@"laces"];
 	}
 	[super removeFromSuperview];
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
 	[self removeObserver:self forKeyPath:@"inputs"];
 	[self removeObserver:self forKeyPath:@"outputs"];
 }
 
+#pragma mark setters and accessors
 
-#pragma mark -
-#pragma mark *** setters and accessors ***
-//vertical Offset
-- (float)verticalOffset {
+- (float)verticalOffset
+{
 	return _verticalOffset;
 }
 
-- (void)setVerticalOffset:(float)aValue {
+- (void)setVerticalOffset:(float)aValue
+{
 	_verticalOffset = MAX(aValue,0);	
 	[self setHeight:MAX([self minimalSize].height,[self height])];
 	[[self superview] setNeedsDisplay:YES];
 }
 
-- (BOOL)isSelected{
+- (BOOL)isSelected
+{
 	return [[(EFLaceView*)[self superview] selectedSubViews] containsObject:self];
 }
 
-// title color
-- (NSColor *)titleColor {
+- (NSColor *)titleColor
+{
 	return _titleColor;
 }
 
-- (void)setTitleColor:(NSColor *)aColor {
-	if (aColor != [self titleColor]) {
+- (void)setTitleColor:(NSColor *)aColor
+{
+	if (aColor != [self titleColor])
+    {
 		_titleColor = aColor;
 	}
 	[self setNeedsDisplay:YES];
 }
 
-// title
-- (NSString *)title {
+- (NSString *)title
+{
 	return (_title == nil)?@"":_title;
 }
 
-- (void)setTitle:(NSString *)aTitle {
-	if (aTitle != _title) {
+- (void)setTitle:(NSString *)aTitle
+{
+	if (aTitle != _title)
+    {
 		_title = aTitle;
 		[self setWidth:MAX([self minimalSize].width,[self width])];
 		[self setNeedsDisplay:YES];
 	}
 }
 
-- (float) originX {
+- (float) originX
+{
 	return [self frame].origin.x;
 }
 
-- (float) originY {
+- (float) originY
+{
 	return [self frame].origin.y;
 }
 
-- (float) width {
+- (float) width
+{
 	return [self frame].size.width;
 }
 
-- (float) height {
+- (float) height
+{
 	return [self frame].size.height;
 }
 
--(void) setOriginX:(float)aFloat {
-	if (aFloat != [self originX]) {
+-(void) setOriginX:(float)aFloat
+{
+	if (aFloat != [self originX])
+    {
 		NSRect frame = [self frame];
 		frame.origin.x = aFloat;
 		[self setFrame:frame];
@@ -138,8 +158,10 @@ static void *_inoutputObservationContext = (void *)1094;
 	}
 }
 
--(void) setOriginY:(float)aFloat {
-	if (aFloat != [self originY]) {
+-(void) setOriginY:(float)aFloat
+{
+	if (aFloat != [self originY])
+    {
 		NSRect frame = [self frame];
 		frame.origin.y = aFloat;
 		[self setFrame:frame];
@@ -147,8 +169,10 @@ static void *_inoutputObservationContext = (void *)1094;
 	}
 }
 
--(void) setWidth:(float)aFloat {
-	if (aFloat != [self width]) {
+-(void) setWidth:(float)aFloat
+{
+	if (aFloat != [self width])
+    {
 		NSRect frame = [self frame];
 		frame.size.width = MAX(aFloat,[self minimalSize].width);
 		[self setFrame:frame];
@@ -156,8 +180,10 @@ static void *_inoutputObservationContext = (void *)1094;
 	}
 }
 
--(void) setHeight:(float)aFloat {
-	if (aFloat != [self height]) {
+-(void) setHeight:(float)aFloat
+{
+	if (aFloat != [self height])
+    {
 		NSRect frame = [self frame];
 		frame.size.height = MAX(aFloat,[self minimalSize].height);
 		[self setFrame:frame];
@@ -165,55 +191,66 @@ static void *_inoutputObservationContext = (void *)1094;
 	}
 }
 
-
 #pragma mark inputs
 
-- (NSMutableSet *)inputs {
+- (NSMutableSet *)inputs
+{
     return _inputs; 
 }
 
-- (void)setInputs:(NSMutableSet *)aSet {
-	if (aSet != _inputs) {
+- (void)setInputs:(NSMutableSet *)aSet
+{
+	if (aSet != _inputs)
+    {
 		_inputs = aSet;
 	}
 }
 
-- (NSArray *)orderedInputs {
+- (NSArray *)orderedInputs
+{
 	return [self orderedHoles:[self inputs]];
 }
 
-- (NSArray *)orderedHoles:(NSSet *)aSet {
+- (NSArray *)orderedHoles:(NSSet *)aSet
+{
 	NSSortDescriptor* sort = [[NSSortDescriptor alloc] initWithKey:@"position" ascending:YES];
 	NSArray* result = [[aSet allObjects] sortedArrayUsingDescriptors:@[sort]];
 	return result;
 }
 
 #pragma mark outputs
-- (NSMutableSet *)outputs {
+
+- (NSMutableSet *)outputs
+{
 	return _outputs; 
 }
 
-- (void)setOutputs:(NSMutableSet *)aSet {
-	if (aSet != _outputs) {
+- (void)setOutputs:(NSMutableSet *)aSet
+{
+	if (aSet != _outputs)
+    {
 		_outputs = aSet;
 	}
 }
 
-- (NSArray *)orderedOutputs {
+- (NSArray *)orderedOutputs
+{
 	return [self orderedHoles:[self outputs]];
 }
 
-#pragma mark -
-#pragma mark *** geometry ***
+#pragma mark geometry
 
-- (id) endHole:(NSPoint)aPoint {
+- (id) endHole:(NSPoint)aPoint
+{
 	NSPoint mousePos = [self convertPoint:aPoint fromView:[self superview]];
 	NSSize stringSize = [[self title] sizeWithAttributes:_stringAttributes];
 	float heightOfText = stringSize.height;
-	if ((mousePos.x>0) && (mousePos.x <15)) {
+	if ((mousePos.x>0) && (mousePos.x <15))
+    {
 		int hole = (-mousePos.y + [self bounds].origin.y + [self bounds].size.height - [self verticalOffset] - heightOfText*0.5 ) / heightOfText;
 		id res = ((hole >0)&&(hole <=[[self inputs] count]))?[self orderedInputs][hole-1]:nil;
-		if (res) {
+		if (res)
+        {
 			[res setValue:_data forKey:@"data"];
 		}
 		return res;
@@ -221,14 +258,17 @@ static void *_inoutputObservationContext = (void *)1094;
 	return nil;
 }
 
-- (id) startHole:(NSPoint)aPoint {
+- (id) startHole:(NSPoint)aPoint
+{
 	NSPoint mousePos = [self convertPoint:aPoint fromView:[self superview]];
 	NSSize stringSize = [[self title] sizeWithAttributes:_stringAttributes];
 	float heightOfText = stringSize.height;
-	if ((mousePos.x>[self bounds].origin.x+[self bounds].size.width-15) && (mousePos.x <[self bounds].origin.x+[self bounds].size.width)) {
+	if ((mousePos.x>[self bounds].origin.x+[self bounds].size.width-15) && (mousePos.x <[self bounds].origin.x+[self bounds].size.width))
+    {
 		int hole = (-mousePos.y + [self bounds].origin.y + [self bounds].size.height - [self verticalOffset] - heightOfText*0.5) / heightOfText;
 		id res = ((hole >0)&&(hole <=[[self outputs] count]))?[self orderedOutputs][hole-1]:nil;
-		if (res) {
+		if (res)
+        {
 			[res setValue:_data forKey:@"data"];
 		}
 		return res;
@@ -236,7 +276,8 @@ static void *_inoutputObservationContext = (void *)1094;
 	return nil;
 }
 
-- (NSPoint)endHolePoint:(id)aEndHole {
+- (NSPoint)endHolePoint:(id)aEndHole
+{
 	NSSize stringSize = [[self title] sizeWithAttributes:_stringAttributes];
 	float heightOfText = stringSize.height;
 	
@@ -246,7 +287,8 @@ static void *_inoutputObservationContext = (void *)1094;
 	return [self convertPoint:NSMakePoint(5+4,[self bounds].origin.y+[self bounds].size.height - [self verticalOffset] - heightOfText * (hole+1.0)) toView:[self superview]];
 }
 
-- (NSPoint)startHolePoint:(id) aStartHole {
+- (NSPoint)startHolePoint:(id) aStartHole
+{
 	NSSize stringSize = [[self title] sizeWithAttributes:_stringAttributes];
 	float heightOfText = stringSize.height;
 	
@@ -256,18 +298,21 @@ static void *_inoutputObservationContext = (void *)1094;
 	return [self convertPoint:NSMakePoint([self bounds].origin.x+[self bounds].size.width-5-4, [self bounds].origin.y+[self bounds].size.height - [self verticalOffset] - heightOfText * (hole+1.0)) toView:[self superview]];
 }
 
-- (NSSize) minimalSize {
+- (NSSize) minimalSize
+{
 	NSSize titleSize = [[self title] sizeWithAttributes:_stringAttributes];
 	float maxInputWidth = 0;
 	int i;
-	for (i=0; i<[[self inputs] count]; i++) {
+	for (i=0; i<[[self inputs] count]; i++)
+    {
 		NSString* inputLabel = [[self orderedInputs][(unsigned)i] valueForKey:@"label"];
 		float inputWidth = 10+4+[inputLabel sizeWithAttributes:_stringAttributes].width + 5;
 		maxInputWidth = MAX(inputWidth,maxInputWidth);
 	}
 	float maxOutputWidth = 0;
 	int j;
-	for (j=0; j<[[self outputs] count]; j++) {
+	for (j=0; j<[[self outputs] count]; j++)
+    {
 		NSString* outputLabel = [[self orderedOutputs][(unsigned)j] valueForKey:@"label"];
 		float outputWidth =10+4+[outputLabel sizeWithAttributes:_stringAttributes].width + 5;
 		maxOutputWidth = MAX(outputWidth,maxOutputWidth);
@@ -279,13 +324,23 @@ static void *_inoutputObservationContext = (void *)1094;
 	return result;
 }
 
-#pragma mark -
-#pragma mark *** drawing ***
+#pragma mark drawing
 
-- (void)drawRect:(NSRect)rect {
+- (void)drawRect:(NSRect)rect
+{
+    id sview = [self superview];
+    if (sview)
+    {
+        id delegate = [sview delegate];
+        if (delegate && ![delegate EFLaceView:sview shouldDrawView:self])
+        {
+            return;
+        }
+    }
 	NSRect bounds = NSInsetRect([self bounds],4,4);
 	const float backgroundAlpha = 0.7;
 	NSSize stringSize = [[self title] sizeWithAttributes:_stringAttributes];
+    
 	//draw body background
 	[[[[self titleColor] blendedColorWithFraction:0.8 ofColor:[NSColor controlBackgroundColor]]colorWithAlphaComponent:backgroundAlpha] setFill];
 	[[NSBezierPath bezierPathWithBottomRoundedRect:NSMakeRect(bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height - stringSize.height) radius:8] fill];
@@ -297,7 +352,8 @@ static void *_inoutputObservationContext = (void *)1094;
 	[[self title] drawAtPoint:NSMakePoint(bounds.origin.x + (bounds.size.width -stringSize.width)/2,bounds.origin.y + bounds.size.height - stringSize.height) withAttributes:_stringAttributes];
 	
 	// draw end of lace
-	for (NSDictionary *aDict in [self inputs]) {
+	for (NSDictionary *aDict in [self inputs])
+    {
 		NSBezierPath *path = [NSBezierPath bezierPath];
 		[path setLineWidth:1];
 		[[NSColor grayColor] set];
@@ -313,7 +369,8 @@ static void *_inoutputObservationContext = (void *)1094;
 	}
 	
 	// draw start of lace
-	for (NSDictionary *aDict in [self outputs]) {
+	for (NSDictionary *aDict in [self outputs])
+    {
 		NSBezierPath *path = [NSBezierPath bezierPath];
 		[path setLineWidth:1];
 		[[NSColor grayColor] set];
@@ -336,66 +393,82 @@ static void *_inoutputObservationContext = (void *)1094;
 	[shape stroke];
 }
 
--(void)setFrame:(NSRect)aRect {
+-(void)setFrame:(NSRect)aRect
+{
 	NSRect orFrame = [self frame];
-	if (orFrame.origin.x != aRect.origin.x) {
+	if (orFrame.origin.x != aRect.origin.x)
+    {
 		[self willChangeValueForKey:@"originX"];
 		[self willChangeValueForKey:@"drawingBounds"];
 	}
-	if (orFrame.origin.y != aRect.origin.y) {
+	if (orFrame.origin.y != aRect.origin.y)
+    {
 		[self willChangeValueForKey:@"originY"];
 		[self willChangeValueForKey:@"drawingBounds"];
 	}
-	if (orFrame.size.height != aRect.size.height) {
+	if (orFrame.size.height != aRect.size.height)
+    {
 		[self willChangeValueForKey:@"height"];
 		[self willChangeValueForKey:@"drawingBounds"];
 	}
-	if (orFrame.size.width != aRect.size.width) {
+	if (orFrame.size.width != aRect.size.width)
+    {
 		[self willChangeValueForKey:@"width"];
 		[self willChangeValueForKey:@"drawingBounds"];
 	}
 	
 	[super setFrame:aRect];
 	
-	if (orFrame.origin.x != aRect.origin.x) {
+	if (orFrame.origin.x != aRect.origin.x)
+    {
 		[self didChangeValueForKey:@"originX"];
 		[self didChangeValueForKey:@"drawingBounds"];
 	}
-	if (orFrame.origin.y != aRect.origin.y) {
+	if (orFrame.origin.y != aRect.origin.y)
+    {
 		[self didChangeValueForKey:@"originY"];
 		[self didChangeValueForKey:@"drawingBounds"];
 	}
-	if (orFrame.size.height != aRect.size.height) {
+	if (orFrame.size.height != aRect.size.height)
+    {
 		[self didChangeValueForKey:@"height"];
 		[self didChangeValueForKey:@"drawingBounds"];
 	}
-	if (orFrame.size.width != aRect.size.width) {
+	if (orFrame.size.width != aRect.size.width)
+    {
 		[self didChangeValueForKey:@"width"];
 		[self didChangeValueForKey:@"drawingBounds"];
 	}
 }
 
-#pragma mark -
-#pragma mark *** events ***
+#pragma mark events
 
-- (BOOL) acceptsFirstResponder {
+- (BOOL) acceptsFirstResponder
+{
 	return YES;
 }
 
-- (NSView *)hitTest:(NSPoint)aPoint {
+- (NSView *)hitTest:(NSPoint)aPoint
+{
 	return (([self startHole:aPoint] != nil) || ([self endHole:aPoint] != nil))?nil:[super hitTest:aPoint]; 
 }
 
-- (void)mouseDown:(NSEvent*)theEvent {
+- (void)mouseDown:(NSEvent*)theEvent
+{
 	EFLaceView* sView = (EFLaceView*)[self superview];
 	
-	if ([theEvent modifierFlags] & NSShiftKeyMask){
+	if ([theEvent modifierFlags] & NSShiftKeyMask)
+    {
 		// add to selection
 		[sView selectView:self state:YES];
-	} else if ([theEvent modifierFlags] & NSCommandKeyMask){
+	}
+    else if ([theEvent modifierFlags] & NSCommandKeyMask)
+    {
 		// inverse selection
 		[sView selectView:self state:!self.isSelected];
-	} else if (!self.isSelected) {
+	}
+    else if (!self.isSelected)
+    {
 		[sView deselectViews];
 		[sView selectView:self state:YES];
 	}
@@ -406,13 +479,17 @@ static void *_inoutputObservationContext = (void *)1094;
 	NSPoint lastMouseLoc = [[self superview] convertPoint:[theEvent locationInWindow] fromView:nil];;
 	NSRect initialFrame = [self frame];
 	
-	while (keepOn) {
+	while (keepOn)
+    {
         theEvent = [[self window] nextEventMatchingMask: NSLeftMouseUpMask | NSLeftMouseDraggedMask | NSPeriodicMask ];
-        switch ([theEvent type]) {
-            case NSLeftMouseDragged: {
+        switch ([theEvent type])
+        {
+            case NSLeftMouseDragged:
+            {
 				[[NSCursor closedHandCursor] set];
 				mouseLoc = [[self superview] convertPoint:[theEvent locationInWindow] fromView:nil];
-				for (NSView* view in [sView selectedSubViews]) {
+				for (NSView* view in [sView selectedSubViews])
+                {
 					[view setFrame: NSOffsetRect([view frame],mouseLoc.x-lastMouseLoc.x,mouseLoc.y-lastMouseLoc.y)];
 				}
 				lastMouseLoc = mouseLoc;
@@ -422,7 +499,8 @@ static void *_inoutputObservationContext = (void *)1094;
 			}
             case NSLeftMouseUp:
 				[[NSCursor arrowCursor] set];
-				if (!NSContainsRect([sView bounds],[self frame])) { 
+				if (!NSContainsRect([sView bounds],[self frame]))
+                {
 					// revert to original frame if not inside superview
 					[self setFrame:initialFrame];
 					[sView setNeedsDisplay:YES];
@@ -438,10 +516,10 @@ static void *_inoutputObservationContext = (void *)1094;
     return;
 }
 
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ((([keyPath isEqualToString:@"inputs"]) || [keyPath isEqualToString:@"outputs"]) && (context == _inoutputObservationContext)) {
-		
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ((([keyPath isEqualToString:@"inputs"]) || [keyPath isEqualToString:@"outputs"]) && (context == _inoutputObservationContext))
+    {
 		NSSet *new = [change valueForKey:@"new"];
 		NSSet *old = [change valueForKey:@"old"];
 		
@@ -454,13 +532,15 @@ static void *_inoutputObservationContext = (void *)1094;
 		[removed minusSet:new];
 		
 		//make label observed by the view for changes on label or on position
-		for (id anObject in inserted) {
+		for (id anObject in inserted)
+        {
 			[anObject addObserver:self forKeyPath:@"label" options:0 context:_inoutputObservationContext];
 			[anObject addObserver:self forKeyPath:@"position" options:0 context:_inoutputObservationContext];
 			[anObject addObserver:self forKeyPath:@"laces" options:0 context:_inoutputObservationContext];
 		}
 		
-		for (id anObject in removed) {
+		for (id anObject in removed)
+        {
 			[anObject removeObserver:self forKeyPath:@"label"];
 			[anObject removeObserver:self forKeyPath:@"position"];
 			[anObject removeObserver:self forKeyPath:@"laces"];
@@ -472,29 +552,31 @@ static void *_inoutputObservationContext = (void *)1094;
 		[[self superview] setNeedsDisplay:YES];
 		
     }
-	if (([keyPath isEqualToString:@"label"]) && (context == _inoutputObservationContext) ) {
+	if (([keyPath isEqualToString:@"label"]) && (context == _inoutputObservationContext) )
+    {
 		//update size and redraw
 		[self setWidth:MAX([self minimalSize].width,[self width])];
 		[self setHeight:MAX([self minimalSize].height,[self height])];
 	}
-	if (([keyPath isEqualToString:@"position"]) && (context == _inoutputObservationContext) ) {
+	if (([keyPath isEqualToString:@"position"]) && (context == _inoutputObservationContext) )
+    {
 		//redraw superview (laces may have changed because of positions of labels)
 		[[self superview] setNeedsDisplay:YES];
 	}
-	if ([keyPath isEqualToString:@"laces"]) {
+	if ([keyPath isEqualToString:@"laces"])
+    {
 		//redraw laces because of undos
 		[[self superview] setNeedsDisplay:YES];
 	}
 }
 
-
-#pragma mark -
-#pragma mark *** color ***
+#pragma mark color
 
 - (void)changeColor:(id)sender;
 {
     NSColor *color = [sender color];
-    if (color) {
+    if (color)
+    {
         [self setTitleColor:color];
     }
 }
